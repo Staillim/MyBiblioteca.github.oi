@@ -104,18 +104,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 🛠 Aplicar búsqueda si hay un término guardado en localStorage (cuando se entra a index.html)
-    if (window.location.pathname.includes("index.html") || window.location.pathname === "/") {
-        let busquedaGuardada = localStorage.getItem("busqueda");
-        if (busquedaGuardada) {
-            document.getElementById("searchInput").value = busquedaGuardada;
-            filtrarContenido(); // Ejecuta la búsqueda con el valor guardado
-            localStorage.removeItem("busqueda"); // Limpia el término de búsqueda después de aplicarlo
-        }
-    }
+
 
     // 🔥 Ejecutar búsqueda en tiempo real
     document.getElementById("searchInput").addEventListener("input", filtrarContenido);
 });
+
+
 
 
