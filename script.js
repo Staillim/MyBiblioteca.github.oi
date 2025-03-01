@@ -152,3 +152,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.filtrarPorCategoria = filtrarPorCategoria;
 });
+
+// Cerrar menú al hacer clic fuera
+document.addEventListener("click", function (event) {
+    let menu = document.getElementById("navMenu");
+    let hamburger = document.querySelector(".hamburger");
+    if (menu.classList.contains("active") && !menu.contains(event.target) && !hamburger.contains(event.target)) {
+        menu.classList.remove("active");
+    }
+});

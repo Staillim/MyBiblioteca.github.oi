@@ -13,7 +13,8 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    padding-top: 80px; /* Espacio para el header fijo */
+    padding-top: 80px;
+    overflow-x: hidden;
 }
 
 /* Header */
@@ -32,7 +33,7 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 3000; /* Aumentado para estar encima de todo */
 }
 
 /* Estilos del botón hamburguesa */
@@ -54,14 +55,15 @@ header {
 /* Estilos del menú desplegable */
 .nav-menu {
     display: none;
-    position: absolute;
-    top: 80px; /* Ajustado a la altura del header */
-    left: 20px;
-    background-color: #333; /* Gris oscuro medio, más claro que #111 */
+    position: fixed; /* Cambiado a fixed para cubrir toda la pantalla */
+    top: 80px; /* Justo debajo del header */
+    left: 0; /* Alineado a la izquierda */
+    width: 200px; /* Ancho fijo del menú */
+    background-color: #333;
     box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
+    border-radius: 0 5px 5px 0; /* Solo bordes redondeados a la derecha */
     padding: 10px;
-    z-index: 1000;
+    z-index: 3100; /* Encima de todo, incluso del ad-overlay (2000) */
 }
 
 .nav-menu.active {
@@ -82,10 +84,10 @@ header {
 }
 
 .nav-menu li:hover {
-    background-color: #444; /* Un poco más claro para el hover */
+    background-color: #444;
 }
 
-/* Header buttons (usado solo en index.html) */
+/* Header buttons */
 .header-buttons {
     display: flex;
     gap: 10px;
@@ -107,7 +109,7 @@ header {
     background-color: #0056b3;
 }
 
-/* Campo de búsqueda (usado solo en index.html) */
+/* Campo de búsqueda */
 #searchInput {
     padding: 8px;
     font-size: 16px;
@@ -120,13 +122,163 @@ header {
     color: white;
 }
 
+/* Estilos del carrusel */
+.swiper-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px 0;
+    background-color: #222;
+    overflow: hidden;
+}
+
+.swiper-container h2 {
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-transform: uppercase;
+}
+
+.swiper-wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    width: auto;
+}
+
+.swiper-slide .card {
+    width: 200px;
+    height: 300px;
+    margin: 0 auto;
+}
+
+.swiper-button-prev, .swiper-button-next {
+    color: #007bff;
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.swiper-button-prev {
+    left: 10px;
+}
+
+.swiper-button-next {
+    right: 10px;
+}
+
+.swiper-pagination-bullet {
+    background: #fff;
+}
+
+.swiper-pagination-bullet-active {
+    background: #007bff;
+}
+
+/* Estilos del overlay del anuncio */
+.ad-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+/* Estilos del banner de anuncio centrado */
+.ad-banner {
+    width: 300px;
+    height: 310px;
+    background-color: #333;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.ad-content {
+    width: 300px;
+    height: 250px;
+    overflow: hidden;
+}
+
+.ad-banner button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.ad-banner button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+}
+
+.ad-banner button:not(:disabled):hover {
+    background-color: #cc0000;
+}
+
+/* Estilos del contenedor de entrada con anuncios laterales */
+.entrada-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+/* Contenido principal de entrada */
+.entrada-content {
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+}
+
+/* Anuncios laterales */
+.side-ad {
+    width: 300px;
+    height: 250px;
+    z-index: 1000;
+}
+
+.left-ad {
+    margin-right: 20px;
+}
+
+.right-ad {
+    margin-left: 20px;
+}
+
 /* Contenedor principal */
 .container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-    margin-top: 20px; /* Ajuste extra en móviles */
+    margin-top: 20px;
+    width: 100%;
+    max-width: 1200px;
 }
 
 /* Tarjetas de películas */
@@ -160,7 +312,7 @@ header {
     color: white;
     text-align: center;
     padding: 10px 0;
-    font-size: 1.2vw; /* Ajusta dinámicamente en PC */
+    font-size: 1.2vw;
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -168,7 +320,7 @@ header {
 /* Insignia HD */
 .badge {
     position: absolute;
-    top: 40px;  
+    top: 40px;
     right: 5px;
     width: 40px;
     height: 40px;
@@ -186,10 +338,20 @@ header {
     object-fit: contain;
 }
 
+/* Calidad para series */
+.quality {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px;
+    border-radius: 3px;
+}
+
 /* Responsividad */
 @media (max-width: 768px) {
     body {
-        padding-top: 80px; /* Mantener el espacio fijo */
+        padding-top: 80px;
     }
 
     header {
@@ -204,17 +366,30 @@ header {
 
     .nav-menu {
         top: 60px;
-        left: 15px;
+        left: 0; /* Alineado a la izquierda */
     }
 
-    .header-buttons button {
-        padding: 6px 10px;
-        font-size: 12px;
+    .entrada-container {
+        flex-direction: column;
+        padding: 10px;
     }
 
-    #searchInput {
-        width: 180px;
-        font-size: 14px;
+    .side-ad {
+        position: static;
+        margin: 20px auto;
+        transform: none;
+    }
+
+    .left-ad {
+        margin-right: 0;
+    }
+
+    .right-ad {
+        margin-left: 0;
+    }
+
+    .entrada-content {
+        max-width: 100%;
     }
 
     .container {
@@ -227,8 +402,13 @@ header {
         height: 240px;
     }
 
+    .swiper-slide .card {
+        width: 160px;
+        height: 240px;
+    }
+
     .title {
-        font-size: 1em; /* Ajuste para tablets */
+        font-size: 1em;
     }
 }
 
@@ -245,7 +425,7 @@ header {
 
     .nav-menu {
         top: 60px;
-        left: 10px;
+        left: 0; /* Alineado a la izquierda */
     }
 
     h1 {
@@ -262,11 +442,32 @@ header {
         margin-left: 5px;
     }
 
+    .ad-banner {
+        width: 100%;
+        max-width: 300px;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: 0 auto;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    .side-ad {
+        margin: 10px auto;
+    }
+
     .container {
         gap: 5px;
     }
 
     .card {
+        width: 140px;
+        height: 200px;
+    }
+
+    .swiper-slide .card {
         width: 140px;
         height: 200px;
     }

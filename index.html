@@ -14,7 +14,7 @@
             <button class="hamburger" onclick="toggleMenu()">☰</button>
             <h1 onclick="volverInicio()" style="cursor: pointer;">My Biblioteca</h1>
             <div class="header-buttons">
-                <input type="text" id="searchInput" placeholder="Buscar...">
+                <input type="text" id="searchInput" placeholder="Buscar película...">
             </div>
             <nav class="nav-menu" id="navMenu">
                 <ul>
@@ -32,10 +32,16 @@
 
         <div class="container">
             <!-- ENTRADAS NUEVAS -->
+             
+
+
+
+
+
             <div class="card serie-card" onclick="mostrarInfoSerie(this)" data-categoria="anime">
                 <img src="https://pics.filmaffinity.com/Los_apuntes_de_Vanitas_Serie_de_TV-965896727-large.jpg" alt="Póster de la serie">
                 <h3 class="title">Los apuntes de Vanitas S1</h3>
-                <span class="quality">HD</span>
+                <span class="quality">SERIE</span>
                 <div class="links-capitulos" style="display: none;">
                     <span data-temporada="1" data-capitulo="1">https://terabox.com/s/1qVRLBNisRVcyQtky2r0SQA</span>
                     <span data-temporada="1" data-capitulo="2">https://terabox.com/s/1IhTg8W8nk9RQRuuXwo23Pg</span>
@@ -119,9 +125,7 @@
                 <div class="link" style="display: none;">https://terabox.com/s/1rMKoJQLD72m13FeRpOCW7Q</div>
             </div>
         </div>
-<br>
-        <br>
-        <br>
+
         <!-- MODAL -->
         <div id="modal" class="modal-container">
             <div class="modal-content">
@@ -164,6 +168,30 @@
 
         <script src="script.js"></script>
         <script src="java.js"></script>
-        <script type='text/javascript' src='//padsims.com/8a/b8/6d/8ab86d7007070b5807e700a1cf0d7981.js'></script>
+        <script>
+            function volverInicio() {
+                window.location.href = "index.html";
+            }
+        
+            function toggleMenu() {
+                let menu = document.getElementById("navMenu");
+                menu.classList.toggle("active");
+            }
+        
+            // Cerrar menú al hacer clic fuera
+            document.addEventListener("click", function (event) {
+                let menu = document.getElementById("navMenu");
+                let hamburger = document.querySelector(".hamburger");
+                if (menu.classList.contains("active") && !menu.contains(event.target) && !hamburger.contains(event.target)) {
+                    menu.classList.remove("active");
+                }
+            });
+        </script>
+
+
+         <!-- anuncio -->
+
+    <script type='text/javascript' src='//padsims.com/8a/b8/6d/8ab86d7007070b5807e700a1cf0d7981.js'></script>
+
     </body>
 </html>

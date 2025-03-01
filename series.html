@@ -27,29 +27,76 @@
         </header>
 
         <div class="entrada-container"> 
-            <h1 id="titulo"></h1>
-            <br>
-            <img id="imagen" src="" alt="Imagen de la serie">
+
+            <!-- Anuncio Lateral Izquierdo -->
+            <div class="side-ad left-ad">
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'e96a39c04a66f1af8432a56ca9a7c1cf',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
+            </div>
             <br>
 
-            <!-- Selector de Temporada -->
-            <label for="temporada">Temporada:</label>
-            <select id="temporada" onchange="cargarCapitulos()">
-                <option value="">Selecciona una temporada</option>
-            </select>
-
-            <!-- Selector de Capítulo -->
-            <div id="capitulos-container" style="display: none;">
-                <label for="capitulo">Capítulo:</label>
-                <select id="capitulo">
-                    <option value="">Selecciona un capítulo</option>
+            <!-- Contenido Principal -->
+            <div class="entrada-content">
+                <h1 id="titulo"></h1>
+                <br>
+                <img id="imagen" src="" alt="Imagen de la serie">
+                <br>
+                <label for="temporada">Temporada:</label>
+                <select id="temporada" onchange="cargarCapitulos()">
+                    <option value="">Selecciona una temporada</option>
                 </select>
+                <div id="capitulos-container" style="display: none;">
+                    <label for="capitulo">Capítulo:</label>
+                    <select id="capitulo">
+                        <option value="">Selecciona un capítulo</option>
+                    </select>
+                </div>
+                <br>
+                <a id="verCapitulo" href="#" target="_blank" class="boton" style="display: none;">Ver Capítulo</a>
+                <br>
             </div>
 
-            <!-- Botón para ver el capítulo -->
             <br>
-            <a id="verCapitulo" href="#" target="_blank" class="boton" style="display: none;">Ver Capítulo</a>
-            <br>
+            <!-- Anuncio Lateral Derecho -->
+            <div class="side-ad right-ad">
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'e96a39c04a66f1af8432a56ca9a7c1cf',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
+            </div>
+        </div>
+
+        <!-- Banner de Anuncio Centrado -->
+        <div class="ad-overlay" id="adOverlay">
+            <div class="ad-banner" id="adBanner">
+                <div class="ad-content">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'e96a39c04a66f1af8432a56ca9a7c1cf',
+                            'format' : 'iframe',
+                            'height' : 250,
+                            'width' : 300,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
+                </div>
+                <button id="closeAd" disabled>Continuar (5s)</button>
+            </div>
         </div>
     </div>
 
@@ -78,6 +125,34 @@
             } else {
                 document.getElementById("titulo").textContent = "No hay datos disponibles";
             }
+
+            // Temporizador para el banner de anuncio centrado
+            let adOverlay = document.getElementById("adOverlay");
+            let closeAdBtn = document.getElementById("closeAd");
+            let timeLeft = 5;
+
+            // Bloquear interacciones con la página
+            document.body.style.overflow = "hidden";
+
+            closeAdBtn.disabled = true;
+            closeAdBtn.textContent = `Cerrar (${timeLeft}s)`;
+
+            let adTimer = setInterval(() => {
+                timeLeft--;
+                closeAdBtn.textContent = `Cerrar (${timeLeft}s)`;
+                if (timeLeft <= 0) {
+                    clearInterval(adTimer);
+                    closeAdBtn.disabled = false;
+                    closeAdBtn.textContent = "Cerrar";
+                }
+            }, 1000);
+
+            closeAdBtn.addEventListener("click", function () {
+                if (!closeAdBtn.disabled) {
+                    adOverlay.style.display = "none";
+                    document.body.style.overflow = "auto";
+                }
+            });
         });
 
         function cargarCapitulos() {
@@ -127,7 +202,6 @@
             menu.classList.toggle("active");
         }
 
-        // Función placeholder para filtrarPorCategoria (redirige a index.html)
         function filtrarPorCategoria(categoria) {
             localStorage.setItem("categoriaFiltro", categoria);
             window.location.href = "index.html";
@@ -136,6 +210,11 @@
 
     <script src="script.js"></script>
     <script src="java.js"></script>
+
+    <!-- anuncio -->
+
     <script type='text/javascript' src='//padsims.com/8a/b8/6d/8ab86d7007070b5807e700a1cf0d7981.js'></script>
+
+
 </body>
 </html>
