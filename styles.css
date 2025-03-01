@@ -55,9 +55,9 @@ header {
 .nav-menu {
     display: none;
     position: absolute;
-    top: 80px; /* Ajustado a la altura del header */
+    top: 80px;
     left: 20px;
-    background-color: #333; /* Gris oscuro medio, más claro que #111 */
+    background-color: #333;
     box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
     border-radius: 5px;
     padding: 10px;
@@ -82,10 +82,10 @@ header {
 }
 
 .nav-menu li:hover {
-    background-color: #444; /* Un poco más claro para el hover */
+    background-color: #444;
 }
 
-/* Header buttons (usado solo en index.html) */
+/* Header buttons */
 .header-buttons {
     display: flex;
     gap: 10px;
@@ -107,7 +107,7 @@ header {
     background-color: #0056b3;
 }
 
-/* Campo de búsqueda (usado solo en index.html) */
+/* Campo de búsqueda */
 #searchInput {
     padding: 8px;
     font-size: 16px;
@@ -120,13 +120,49 @@ header {
     color: white;
 }
 
+/* Estilos del carrusel */
+.swiper-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px 0;
+    background-color: #222;
+}
+
+.swiper-container h2 {
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-transform: uppercase;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+}
+
+.swiper-button-prev, .swiper-button-next {
+    color: #007bff;
+    width: 40px;
+    height: 40px;
+}
+
+.swiper-pagination-bullet {
+    background: #fff;
+}
+
+.swiper-pagination-bullet-active {
+    background: #007bff;
+}
+
 /* Contenedor principal */
 .container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-    margin-top: 20px; /* Ajuste extra en móviles */
+    margin-top: 20px;
 }
 
 /* Tarjetas de películas */
@@ -160,7 +196,7 @@ header {
     color: white;
     text-align: center;
     padding: 10px 0;
-    font-size: 1.2vw; /* Ajusta dinámicamente en PC */
+    font-size: 1.2vw;
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -186,10 +222,20 @@ header {
     object-fit: contain;
 }
 
+/* Calidad para series */
+.quality {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px;
+    border-radius: 3px;
+}
+
 /* Responsividad */
 @media (max-width: 768px) {
     body {
-        padding-top: 80px; /* Mantener el espacio fijo */
+        padding-top: 80px;
     }
 
     header {
@@ -207,14 +253,8 @@ header {
         left: 15px;
     }
 
-    .header-buttons button {
-        padding: 6px 10px;
-        font-size: 12px;
-    }
-
-    #searchInput {
-        width: 180px;
-        font-size: 14px;
+    .swiper-container h2 {
+        font-size: 20px;
     }
 
     .container {
@@ -228,7 +268,7 @@ header {
     }
 
     .title {
-        font-size: 1em; /* Ajuste para tablets */
+        font-size: 1em;
     }
 }
 
@@ -260,6 +300,10 @@ header {
         width: 120px;
         font-size: 12px;
         margin-left: 5px;
+    }
+
+    .swiper-container h2 {
+        font-size: 18px;
     }
 
     .container {

@@ -152,3 +152,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.filtrarPorCategoria = filtrarPorCategoria;
 });
+

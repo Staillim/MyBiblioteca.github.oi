@@ -30,6 +30,85 @@
             </nav>
         </header>
 
+        <!-- Carrusel de Más Visitadas -->
+        <div class="swiper-container">
+            <h2>Más Visitadas</h2>
+            <div class="swiper-wrapper">
+                <!-- Tarjeta 1 -->
+                <div class="swiper-slide">
+                    <div class="card serie-card" onclick="mostrarInfoSerie(this)" data-categoria="anime">
+                        <img src="https://pics.filmaffinity.com/Los_apuntes_de_Vanitas_Serie_de_TV-965896727-large.jpg" alt="Póster de la serie">
+                        <h3 class="title">Los apuntes de Vanitas S1</h3>
+                        <span class="quality">HD</span>
+                        <div class="links-capitulos" style="display: none;">
+                            <span data-temporada="1" data-capitulo="1">https://terabox.com/s/1qVRLBNisRVcyQtky2r0SQA</span>
+                            <span data-temporada="1" data-capitulo="2">https://terabox.com/s/1IhTg8W8nk9RQRuuXwo23Pg</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 2 -->
+                <div class="swiper-slide">
+                    <div class="card" onclick="guardarYRedirigir(this)" data-categoria="terror">
+                        <img src="https://pics.filmaffinity.com/Terrifier_3-141451507-large.jpg" alt="Película 3">
+                        <div class="badge">
+                            <img src="./img/hd.png.webp" alt="HD">
+                        </div>
+                        <div class="title">Terrifier 3</div>
+                        <div class="link" style="display: none;">https://terabox.com/s/1-2ee_PCbv-oaZk_PwZGKFQ</div>
+                    </div>
+                </div>
+                <!-- Tarjeta 3 -->
+                <div class="swiper-slide">
+                    <div class="card" onclick="guardarYRedirigir(this)" data-categoria="acción">
+                        <img src="https://m.media-amazon.com/images/S/pv-target-images/c2d6430ada2a73209fc05ff1e79cd3dfdf46c92326bed76262d40bd5033e2bb4.jpg" alt="Película 1">
+                        <div class="badge">
+                            <img src="./img/hd.png.webp" alt="HD">
+                        </div>
+                        <div class="title">Venom: El último baile</div>
+                        <div class="link" style="display: none;">https://terabox.com/s/1L0ctQZPl9JfKsmS37k4vhg</div>
+                    </div>
+                </div>
+                <!-- Tarjeta 4 -->
+                <div class="swiper-slide">
+                    <div class="card" onclick="guardarYRedirigir(this)" data-categoria="drama">
+                        <img src="https://pics.filmaffinity.com/Skin-988774585-large.jpg" alt="Skin">
+                        <div class="badge">
+                            <img src="./img/hd.png.webp" alt="HD">
+                        </div>
+                        <div class="title">Skin</div>
+                        <div class="link" style="display: none;">https://terabox.com/s/1nhJbaNxCkzl32v5mX0gJog</div>
+                    </div>
+                </div>
+                <!-- Tarjeta 5 -->
+                <div class="swiper-slide">
+                    <div class="card" onclick="guardarYRedirigir(this)" data-categoria="ciencia ficción">
+                        <img src="https://es.web.img3.acsta.net/pictures/15/04/28/11/53/597849.jpg" alt="Película 1">
+                        <div class="badge">
+                            <img src="./img/hd.png.webp" alt="HD">
+                        </div>
+                        <div class="title">Tomorrowland</div>
+                        <div class="link" style="display: none;">https://terabox.com/s/1Qs3A6qgOvZwgZPRsFXZ8Rg</div>
+                    </div>
+                </div>
+                <!-- Tarjeta 6 -->
+                <div class="swiper-slide">
+                    <div class="card" onclick="guardarYRedirigir(this)" data-categoria="aventura">
+                        <img src="https://m.media-amazon.com/images/M/MV5BNDU4Mzc3NzE5NV5BMl5BanBnXkFtZTgwMzE1NzI1NzM@._V1_.jpg" alt="Película 1">
+                        <div class="badge">
+                            <img src="./img/hd.png.webp" alt="HD">
+                        </div>
+                        <div class="title">Pokémon: detective Pikachu</div>
+                        <div class="link" style="display: none;">https://terabox.com/s/1rMKoJQLD72m13FeRpOCW7Q</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Navegación del carrusel -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <!-- Paginación del carrusel -->
+            <div class="swiper-pagination"></div>
+        </div>
+
         <div class="container">
             <!-- ENTRADAS NUEVAS -->
             <div class="card serie-card" onclick="mostrarInfoSerie(this)" data-categoria="anime">
@@ -119,12 +198,10 @@
                 <div class="link" style="display: none;">https://terabox.com/s/1rMKoJQLD72m13FeRpOCW7Q</div>
             </div>
         </div>
-            <br>
         <br>
         <br>
-                <br>
         <br>
-        <br>
+
         <!-- MODAL -->
         <div id="modal" class="modal-container">
             <div class="modal-content">
@@ -163,6 +240,45 @@
                     return false;
                 }
             }
+        </script>
+
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script>
+            // Inicializar Swiper
+            document.addEventListener("DOMContentLoaded", function () {
+                const swiper = new Swiper('.swiper-container', {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                    loop: true,
+                    autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    breakpoints: {
+                        640: {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                        },
+                        768: {
+                            slidesPerView: 3,
+                            spaceBetween: 30,
+                        },
+                        1024: {
+                            slidesPerView: 4,
+                            spaceBetween: 40,
+                        }
+                    }
+                });
+            });
         </script>
 
         <script src="script.js"></script>
