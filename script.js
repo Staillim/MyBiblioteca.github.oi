@@ -3,12 +3,22 @@ document.addEventListener("DOMContentLoaded", function () {
     let countdownElement = document.getElementById("countdown");
     let interval;
 
+    if (!modal || !countdownElement) {
+        console.error("Falta el modal o el elemento countdown en el HTML");
+        return;
+    }
+
     modal.style.display = "none";
 
-    // 📌 Función para mostrar la información en el modal
     function mostrarInfo(element, esSerie) {
-        let titulo = element.querySelector('.title').textContent;
-        let imagen = element.querySelector('img').src;
+        let tituloElement = element.querySelector('.title');
+        let imagenElement = element.querySelector('img');
+        if (!tituloElement || !imagenElement) {
+            console.error("Falta título o imagen en la tarjeta:", element);
+            return;
+        }
+        let titulo = tituloElement.textContent;
+        let imagen = imagenElement.src;
         let destino;
 
         document.getElementById("modal-title").textContent = titulo;
@@ -23,21 +33,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     link: enlace.textContent
                 });
             });
-
-            // Guardar datos de la serie en localStorage
             localStorage.setItem("tituloSerie", titulo);
             localStorage.setItem("imagenSerie", imagen);
             localStorage.setItem("enlacesSerie", JSON.stringify(enlaces));
-
             destino = "./series.html";
         } else {
-            let link = element.querySelector('.link').textContent;
-
-            // Guardar datos de la película en localStorage
+            let linkElement = element.querySelector('.link');
+            if (!linkElement) {
+                console.error("Falta enlace en la tarjeta de película:", element);
+                return;
+            }
+            let link = linkElement.textContent;
             localStorage.setItem("tituloPelicula", titulo);
             localStorage.setItem("imagenPelicula", imagen);
             localStorage.setItem("linkPelicula", link);
-
             destino = "./entrada.html";
         }
 
@@ -45,7 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
         iniciarCuentaRegresiva(destino);
     }
 
-    // ⏳ Función para iniciar la cuenta regresiva y redirigir
     function iniciarCuentaRegresiva(redireccion) {
         let tiempo = 5;
         clearInterval(interval);
@@ -63,13 +71,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1000);
     }
 
-    // ❌ Cerrar modal al hacer clic en el botón
-    document.getElementById("closeModal").addEventListener("click", function () {
-        modal.style.display = "none";
-        clearInterval(interval);
-    });
+    let closeModal = document.getElementById("closeModal");
+    if (closeModal) {
+        closeModal.addEventListener("click", function () {
+            modal.style.display = "none";
+            clearInterval(interval);
+        });
+    } else {
+        console.error("Elemento closeModal no encontrado");
+    }
 
-    // ❌ Cerrar modal al hacer clic fuera de él
     modal.addEventListener("click", function (event) {
         if (event.target === modal) {
             modal.style.display = "none";
@@ -77,7 +88,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // 🎬 Agregar evento de clic a cada tarjeta (película o serie)
     document.querySelectorAll(".card").forEach(card => {
         card.addEventListener("click", function () {
             let esSerie = card.classList.contains("serie-card");
@@ -85,31 +95,36 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // 🔍 Función para manejar la búsqueda
     function filtrarContenido() {
-        let input = document.getElementById("searchInput").value.toLowerCase();
+        let searchInput = document.getElementById("searchInput");
+        if (!searchInput) {
+            console.error("Elemento searchInput no encontrado");
+            return;
+        }
+        let input = searchInput.value.toLowerCase();
         let tarjetas = document.querySelectorAll(".card");
 
-        // Si NO estamos en index.html, redirigir a index con la búsqueda guardada
-        if (!window.location.pathname.includes("index.html") && window.location.pathname !== "/") {
+        if (window.location.pathname !== "/" && !window.location.pathname.includes("index.html")) {
             localStorage.setItem("busqueda", input);
-            window.location.href = "index.html"; // Redirigir a index.html con la búsqueda guardada
+            window.location.href = "/index.html";
             return;
         }
 
-        // Filtrar en index.html
         tarjetas.forEach(card => {
-            let titulo = card.querySelector(".title").textContent.toLowerCase();
-            card.style.display = titulo.includes(input) ? "block" : "none";
+            let tituloElement = card.querySelector(".title");
+            if (tituloElement) {
+                let titulo = tituloElement.textContent.toLowerCase();
+                card.style.display = titulo.includes(input) ? "block" : "none";
+            } else {
+                card.style.display = "none";
+            }
         });
     }
 
-
-
-    // 🔥 Ejecutar búsqueda en tiempo real
-    document.getElementById("searchInput").addEventListener("input", filtrarContenido);
+    let searchInput = document.getElementById("searchInput");
+    if (searchInput) {
+        searchInput.addEventListener("input", filtrarContenido);
+    } else {
+        console.error("Elemento searchInput no encontrado");
+    }
 });
-
-
-
-
