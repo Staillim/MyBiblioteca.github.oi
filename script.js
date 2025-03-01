@@ -112,7 +112,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let categoria = card.getAttribute("data-categoria") || "";
             if (tituloElement) {
                 let titulo = tituloElement.textContent.toLowerCase();
-                card.style.display = (titulo.includes(input) || categoria.toLowerCase().includes(input)) ? "block" : "none";
+                let categoriaLower = categoria.toLowerCase();
+                card.style.display = (titulo.includes(input) || categoriaLower.includes(input)) ? "block" : "none";
             } else {
                 card.style.display = "none";
             }
@@ -123,14 +124,15 @@ document.addEventListener("DOMContentLoaded", function () {
     function filtrarPorCategoria(categoria) {
         let tarjetas = document.querySelectorAll(".card");
         let navMenu = document.getElementById("navMenu");
-        navMenu.classList.remove("active"); // Cerrar el menú después de seleccionar
+        if (navMenu) navMenu.classList.remove("active");
 
+        let categoriaFiltro = categoria.toLowerCase();
         tarjetas.forEach(card => {
-            let cardCategoria = card.getAttribute("data-categoria") || "";
-            card.style.display = (categoria === "" || cardCategoria === categoria) ? "block" : "none";
+            let cardCategoria = (card.getAttribute("data-categoria") || "").toLowerCase();
+            console.log(`Comparando: filtro="${categoriaFiltro}" vs tarjeta="${cardCategoria}"`); // Depuración
+            card.style.display = (categoriaFiltro === "" || cardCategoria === categoriaFiltro) ? "block" : "none";
         });
 
-        // Limpiar el buscador
         let searchInput = document.getElementById("searchInput");
         if (searchInput) searchInput.value = "";
     }
@@ -142,6 +144,11 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Elemento searchInput no encontrado");
     }
 
-    // Hacer global la función para el menú
+    let categoriaFiltro = localStorage.getItem("categoriaFiltro");
+    if (categoriaFiltro && window.location.pathname.includes("index.html")) {
+        filtrarPorCategoria(categoriaFiltro);
+        localStorage.removeItem("categoriaFiltro");
+    }
+
     window.filtrarPorCategoria = filtrarPorCategoria;
 });
