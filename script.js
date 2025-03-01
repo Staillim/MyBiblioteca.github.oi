@@ -118,3 +118,4 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("searchInput").addEventListener("input", filtrarContenido);
 });
 
+
