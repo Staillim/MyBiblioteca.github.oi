@@ -8,11 +8,22 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
     <div>
         <header>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
             <h1 onclick="volverInicio()" style="cursor: pointer;">My Biblioteca</h1>
-            
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li onclick="filtrarPorCategoria('Anime')">Anime</li>
+                    <li onclick="filtrarPorCategoria('Acción')">Acción</li>
+                    <li onclick="filtrarPorCategoria('Aventura')">Aventura</li>
+                    <li onclick="filtrarPorCategoria('Ciencia Ficción')">Ciencia Ficción</li>
+                    <li onclick="filtrarPorCategoria('Comedia')">Comedia</li>
+                    <li onclick="filtrarPorCategoria('Drama')">Drama</li>
+                    <li onclick="filtrarPorCategoria('Terror')">Terror</li>
+                    <li onclick="filtrarPorCategoria('')">Todas</li>
+                </ul>
+            </nav>
         </header>
 
         <div class="entrada-container"> 
@@ -43,22 +54,19 @@
         function volverInicio() {
             window.location.href = "index.html";
         }
-    </script>
-    
-    <script>
-        function guardarYRedirigir(elemento) {
-            let titulo = elemento.querySelector(".title").textContent;
-            let imagen = elemento.querySelector("img").src;
-            let link = elemento.querySelector(".link").textContent;
 
-            localStorage.setItem("tituloPelicula", titulo);
-            localStorage.setItem("imagenPelicula", imagen);
-            localStorage.setItem("linkPelicula", link);
+        function toggleMenu() {
+            let menu = document.getElementById("navMenu");
+            menu.classList.toggle("active");
+        }
 
-            window.location.href = "entrada.html";
+        // Función placeholder para filtrarPorCategoria (redirige a index.html)
+        function filtrarPorCategoria(categoria) {
+            localStorage.setItem("categoriaFiltro", categoria);
+            window.location.href = "index.html";
         }
     </script>
-    
+
     <script src="script.js"></script>
 </body>
 </html>

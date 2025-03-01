@@ -43,7 +43,7 @@ header {
     padding: 10px;
     background: none;
     border: none;
-    color: rgb(255, 255, 255);
+    color: white;
     transition: color 0.3s;
 }
 
@@ -77,7 +77,7 @@ header {
 .nav-menu li {
     padding: 10px;
     cursor: pointer;
-    color: rgb(0, 0, 0);
+    color: white;
     transition: background-color 0.3s;
 }
 
@@ -85,10 +85,11 @@ header {
     background-color: #444; /* Un poco más claro para el hover */
 }
 
-/* Header buttons */
+/* Header buttons (usado solo en index.html) */
 .header-buttons {
     display: flex;
     gap: 10px;
+    align-items: center;
 }
 
 .header-buttons button {
@@ -106,7 +107,7 @@ header {
     background-color: #0056b3;
 }
 
-/* Campo de búsqueda */
+/* Campo de búsqueda (usado solo en index.html) */
 #searchInput {
     padding: 8px;
     font-size: 16px;
@@ -117,10 +118,6 @@ header {
     outline: none;
     background-color: #333;
     color: white;
-}
-
-#searchInput::placeholder {
-    color: #ccc;
 }
 
 /* Contenedor principal */
@@ -192,7 +189,7 @@ header {
 /* Responsividad */
 @media (max-width: 768px) {
     body {
-        padding-top: 100px; /* Aumentar el espacio en móviles */
+        padding-top: 80px; /* Mantener el espacio fijo */
     }
 
     header {
@@ -237,22 +234,32 @@ header {
 
 @media (max-width: 480px) {
     header {
-        flex-direction: column;
-        height: auto;
-        padding: 10px;
+        height: 60px;
+        padding: 5px 10px;
     }
 
     .hamburger {
         font-size: 18px;
+        padding: 5px;
     }
 
     .nav-menu {
-        top: 90px; /* Ajustado para el header más alto */
+        top: 60px;
         left: 10px;
     }
 
+    h1 {
+        font-size: 16px;
+    }
+
     .header-buttons {
-        margin-top: 5px;
+        gap: 5px;
+    }
+
+    #searchInput {
+        width: 120px;
+        font-size: 12px;
+        margin-left: 5px;
     }
 
     .container {
@@ -265,12 +272,8 @@ header {
     }
 
     .title {
-        font-size: 0.9em; /* Ajuste para móviles pequeños */
+        font-size: 0.9em;
         padding: 5px 0;
-    }
-
-    #searchInput {
-        width: 150px;
     }
 }
 

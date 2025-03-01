@@ -11,8 +11,21 @@
     
     <div>
         <header>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
             <h1 onclick="volverInicio()" style="cursor: pointer;">My Biblioteca</h1>
             
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li onclick="filtrarPorCategoria('Anime')">Anime</li>
+                    <li onclick="filtrarPorCategoria('Acción')">Acción</li>
+                    <li onclick="filtrarPorCategoria('Aventura')">Aventura</li>
+                    <li onclick="filtrarPorCategoria('Ciencia Ficción')">Ciencia Ficción</li>
+                    <li onclick="filtrarPorCategoria('Comedia')">Comedia</li>
+                    <li onclick="filtrarPorCategoria('Drama')">Drama</li>
+                    <li onclick="filtrarPorCategoria('Terror')">Terror</li>
+                    <li onclick="filtrarPorCategoria('')">Todas</li> <!-- Para mostrar todas -->
+                </ul>
+            </nav>
         </header>
 
         <div class="entrada-container"> 
@@ -160,6 +173,6 @@
         });
     </script>
 
-    <script src="script.js"></script>
-</body>
+<script src="script.js"></script>
+<script src="java.js"></script></body>
 </html>
