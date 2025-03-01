@@ -60,5 +60,23 @@
     </script>
     
     <script src="script.js"></script>
+    <script>
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault(); // Desactiva el menú de clic derecho
+    });
+</script>
+
+<script>
+    document.onkeydown = function(e) {
+        if (e.ctrlKey && e.keyCode == 85) {
+            alert('¡Acción deshabilitada!');
+            return false;
+        }
+        if (e.keyCode == 123) { // F12
+            alert('¡Acción deshabilitada!');
+            return false;
+        }
+    }
+</script>
 </body>
 </html>
