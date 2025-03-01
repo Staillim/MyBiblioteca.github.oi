@@ -95,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // Filtrar por texto del buscador
     function filtrarContenido() {
         let searchInput = document.getElementById("searchInput");
         if (!searchInput) {
@@ -104,17 +105,38 @@ document.addEventListener("DOMContentLoaded", function () {
         let input = searchInput.value.toLowerCase();
         let tarjetas = document.querySelectorAll(".card");
 
-
+        if (window.location.pathname !== "/" && !window.location.pathname.includes("index.html")) {
+            localStorage.setItem("busqueda", input);
+            window.location.href = "/index.html";
+            return;
+        }
 
         tarjetas.forEach(card => {
             let tituloElement = card.querySelector(".title");
+            let categoria = card.getAttribute("data-categoria") || "";
             if (tituloElement) {
                 let titulo = tituloElement.textContent.toLowerCase();
-                card.style.display = titulo.includes(input) ? "block" : "none";
+                card.style.display = (titulo.includes(input) || categoria.toLowerCase().includes(input)) ? "block" : "none";
             } else {
                 card.style.display = "none";
             }
         });
+    }
+
+    // Filtrar por categoría del menú
+    function filtrarPorCategoria(categoria) {
+        let tarjetas = document.querySelectorAll(".card");
+        let navMenu = document.getElementById("navMenu");
+        navMenu.classList.remove("active"); // Cerrar el menú después de seleccionar
+
+        tarjetas.forEach(card => {
+            let cardCategoria = card.getAttribute("data-categoria") || "";
+            card.style.display = (categoria === "" || cardCategoria === categoria) ? "block" : "none";
+        });
+
+        // Limpiar el buscador
+        let searchInput = document.getElementById("searchInput");
+        if (searchInput) searchInput.value = "";
     }
 
     let searchInput = document.getElementById("searchInput");
@@ -123,4 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.error("Elemento searchInput no encontrado");
     }
+
+    // Hacer global la función para el menú
+    window.filtrarPorCategoria = filtrarPorCategoria;
 });

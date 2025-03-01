@@ -35,6 +35,57 @@ header {
     z-index: 1000;
 }
 
+/* Estilos del botón hamburguesa */
+.hamburger {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 10px;
+    background: none;
+    border: none;
+    color: rgb(255, 255, 255);
+    transition: color 0.3s;
+}
+
+.hamburger:hover {
+    color: #007bff;
+}
+
+/* Estilos del menú desplegable */
+.nav-menu {
+    display: none;
+    position: absolute;
+    top: 80px; /* Ajustado a la altura del header */
+    left: 20px;
+    background-color: #333; /* Gris oscuro medio, más claro que #111 */
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 1000;
+}
+
+.nav-menu.active {
+    display: block;
+}
+
+.nav-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-menu li {
+    padding: 10px;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    transition: background-color 0.3s;
+}
+
+.nav-menu li:hover {
+    background-color: #444; /* Un poco más claro para el hover */
+}
+
+/* Header buttons */
 .header-buttons {
     display: flex;
     gap: 10px;
@@ -64,6 +115,12 @@ header {
     width: 250px;
     margin-left: 10px;
     outline: none;
+    background-color: #333;
+    color: white;
+}
+
+#searchInput::placeholder {
+    color: #ccc;
 }
 
 /* Contenedor principal */
@@ -106,7 +163,7 @@ header {
     color: white;
     text-align: center;
     padding: 10px 0;
-    font-size: 16px;
+    font-size: 1.2vw; /* Ajusta dinámicamente en PC */
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -144,6 +201,15 @@ header {
         padding: 5px 15px;
     }
 
+    .hamburger {
+        font-size: 20px;
+    }
+
+    .nav-menu {
+        top: 60px;
+        left: 15px;
+    }
+
     .header-buttons button {
         padding: 6px 10px;
         font-size: 12px;
@@ -165,8 +231,7 @@ header {
     }
 
     .title {
-        font-size: 14px;
-        padding: 5px 0;
+        font-size: 1em; /* Ajuste para tablets */
     }
 }
 
@@ -175,6 +240,15 @@ header {
         flex-direction: column;
         height: auto;
         padding: 10px;
+    }
+
+    .hamburger {
+        font-size: 18px;
+    }
+
+    .nav-menu {
+        top: 90px; /* Ajustado para el header más alto */
+        left: 10px;
     }
 
     .header-buttons {
@@ -191,39 +265,12 @@ header {
     }
 
     .title {
-        font-size: 12px;
+        font-size: 0.9em; /* Ajuste para móviles pequeños */
+        padding: 5px 0;
     }
 
     #searchInput {
         width: 150px;
-    }
-}
-
-/* Título dentro de la tarjeta */
-.title {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 1.2vw; /* Ajusta dinámicamente en PC */
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-/* Responsividad */
-@media (max-width: 768px) {
-    .title {
-        font-size: 1em; /* Ajuste para tablets */
-    }
-}
-
-@media (max-width: 480px) {
-    .title {
-        font-size: 0.9em; /* Ajuste para móviles pequeños */
-        padding: 5px 0;
     }
 }
 

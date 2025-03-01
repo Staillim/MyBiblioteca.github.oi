@@ -7,126 +7,174 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="modal.css">
+    <style>
+        /* Estilos para el menú hamburguesa */
+        .hamburger {
+            display: inline-block;
+            cursor: pointer;
+            font-size: 24px;
+            padding: 10px;
+            background: none;
+            border: none;
+        }
+        .nav-menu {
+            display: none;
+            position: absolute;
+            top: 60px; /* Ajusta según la altura de tu header */
+            left: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .nav-menu.active {
+            display: block;
+        }
+        .nav-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .nav-menu li {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .nav-menu li:hover {
+            background-color: #f0f0f0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+        .header-buttons {
+            display: flex;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
-
     <div>
         <header>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
             <h1 onclick="volverInicio()" style="cursor: pointer;">My Biblioteca</h1>
             <div class="header-buttons">
-                <input type="text" id="searchInput" placeholder="Buscar película..." onkeyup="filtrarPeliculas()">
-                
-
+                <input type="text" id="searchInput" placeholder="Buscar película...">
             </div>
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li onclick="filtrarPorCategoria('Anime')">Anime</li>
+                    <li onclick="filtrarPorCategoria('Acción')">Acción</li>
+                    <li onclick="filtrarPorCategoria('Aventura')">Aventura</li>
+                    <li onclick="filtrarPorCategoria('Ciencia Ficción')">Ciencia Ficción</li>
+                    <li onclick="filtrarPorCategoria('Comedia')">Comedia</li>
+                    <li onclick="filtrarPorCategoria('Drama')">Drama</li>
+                    <li onclick="filtrarPorCategoria('Terror')">Terror</li>
+                    <li onclick="filtrarPorCategoria('')">Todas</li> <!-- Para mostrar todas -->
+                </ul>
+            </nav>
         </header>
 
-
-        
         <div class="container">
-            
-        <!-- ENtradas Nuevas -->
-
-        
-<div class="card" onclick="guardarYRedirigir(this)">
-    <img src="https://pics.filmaffinity.com/Skin-988774585-large.jpg" alt="Skin">
-    <div class="badge">
-        <img src="./img/hd.png.webp" alt="HD">
-    </div>
-    <div class="title">Skin</div>
-    <div class="link" style="display: none;">https://terabox.com/s/1nhJbaNxCkzl32v5mX0gJog</div>
-</div>
-
-
-
-           <!-- Tarjetas de películas -->
-           <div class="card" onclick="guardarYRedirigir(this)">
-            <img src="https://es.web.img3.acsta.net/pictures/15/04/28/11/53/597849.jpg" alt="Película 1">
-            <div class="badge">
-                <img src="./img/hd.png.webp" alt="HD">
+            <!-- ENTRADAS NUEVAS -->
+            <div class="card" onclick="guardarYRedirigir(this)" data-categoria="Drama">
+                <img src="https://pics.filmaffinity.com/Skin-988774585-large.jpg" alt="Skin">
+                <div class="badge">
+                    <img src="./img/hd.png.webp" alt="HD">
+                </div>
+                <div class="title">Skin</div>
+                <div class="link" style="display: none;">https://terabox.com/s/1nhJbaNxCkzl32v5mX0gJog</div>
             </div>
-            <div class="title">Tomorrowland</div>
-            <div class="link" style="display: none;">https://terabox.com/s/1Qs3A6qgOvZwgZPRsFXZ8Rg</div>
-        </div>
-        
-        <div class="card" onclick="guardarYRedirigir(this)">
-            <img src="https://m.media-amazon.com/images/S/pv-target-images/95df6af83a949c53078666663510af758a2423e5567f275a3dbd63f166a9ae16.jpg" alt="Película 2">
-            <div class="badge">
-                <img src="./img/hd.png.webp" alt="HD">
+
+            <!-- TARJETAS DE PELÍCULAS -->
+            <div class="card" onclick="guardarYRedirigir(this)" data-categoria="Ciencia Ficción">
+                <img src="https://es.web.img3.acsta.net/pictures/15/04/28/11/53/597849.jpg" alt="Película 1">
+                <div class="badge">
+                    <img src="./img/hd.png.webp" alt="HD">
+                </div>
+                <div class="title">Tomorrowland</div>
+                <div class="link" style="display: none;">https://terabox.com/s/1Qs3A6qgOvZwgZPRsFXZ8Rg</div>
             </div>
-            <div class="title">El dictador</div>
-            <div class="link" style="display: none;">https://terabox.com/s/1R6bKJMPtDY5bIVUl1Pe9eg</div>
-        </div>
-        
-        <div class="card" onclick="guardarYRedirigir(this)">
-            <img class="img" src="https://pics.filmaffinity.com/Terrifier_3-141451507-large.jpg" alt="Película 3">
-            <div class="badge">
-                <img src="./img/hd.png.webp" alt="HD">
+
+            <div class="card" onclick="guardarYRedirigir(this)" data-categoria="Comedia">
+                <img src="https://m.media-amazon.com/images/S/pv-target-images/95df6af83a949c53078666663510af758a2423e5567f275a3dbd63f166a9ae16.jpg" alt="Película 2">
+                <div class="badge">
+                    <img src="./img/hd.png.webp" alt="HD">
+                </div>
+                <div class="title">El dictador</div>
+                <div class="link" style="display: none;">https://terabox.com/s/1R6bKJMPtDY5bIVUl1Pe9eg</div>
             </div>
-            <div class="title">Terrifier 3</div>
-            <div class="link" style="display: none;">https://terabox.com/s/1-2ee_PCbv-oaZk_PwZGKFQ</div>
-        </div>
 
-        <div class="card" onclick="guardarYRedirigir(this)">
-            <img src="https://m.media-amazon.com/images/S/pv-target-images/c2d6430ada2a73209fc05ff1e79cd3dfdf46c92326bed76262d40bd5033e2bb4.jpg" alt="Película 1">
-            <div class="badge">
-                <img src="./img/hd.png.webp" alt="HD">
+            <div class="card" onclick="guardarYRedirigir(this)" data-categoria="Terror">
+                <img class="img" src="https://pics.filmaffinity.com/Terrifier_3-141451507-large.jpg" alt="Película 3">
+                <div class="badge">
+                    <img src="./img/hd.png.webp" alt="HD">
+                </div>
+                <div class="title">Terrifier 3</div>
+                <div class="link" style="display: none;">https://terabox.com/s/1-2ee_PCbv-oaZk_PwZGKFQ</div>
             </div>
-            <div class="title">Venom: El último baile</div>
-            <div class="link" style="display: none;">https://terabox.com/s/1L0ctQZPl9JfKsmS37k4vhg</div>
-        </div>
 
-        <div class="card" onclick="guardarYRedirigir(this)">
-            <img src="https://m.media-amazon.com/images/M/MV5BNDU4Mzc3NzE5NV5BMl5BanBnXkFtZTgwMzE1NzI1NzM@._V1_.jpg" alt="Película 1">
-            <div class="badge">
-                <img src="./img/hd.png.webp" alt="HD">
+            <div class="card" onclick="guardarYRedirigir(this)" data-categoria="Acción">
+                <img src="https://m.media-amazon.com/images/S/pv-target-images/c2d6430ada2a73209fc05ff1e79cd3dfdf46c92326bed76262d40bd5033e2bb4.jpg" alt="Película 1">
+                <div class="badge">
+                    <img src="./img/hd.png.webp" alt="HD">
+                </div>
+                <div class="title">Venom: El último baile</div>
+                <div class="link" style="display: none;">https://terabox.com/s/1L0ctQZPl9JfKsmS37k4vhg</div>
             </div>
-            <div class="title">Pokémon: detective Pikachu</div>
-            <div class="link" style="display: none;">https://terabox.com/s/1rMKoJQLD72m13FeRpOCW7Q</div>
+
+            <div class="card" onclick="guardarYRedirigir(this)" data-categoria="Aventura">
+                <img src="https://m.media-amazon.com/images/M/MV5BNDU4Mzc3NzE5NV5BMl5BanBnXkFtZTgwMzE1NzI1NzM@._V1_.jpg" alt="Película 1">
+                <div class="badge">
+                    <img src="./img/hd.png.webp" alt="HD">
+                </div>
+                <div class="title">Pokémon: detective Pikachu</div>
+                <div class="link" style="display: none;">https://terabox.com/s/1rMKoJQLD72m13FeRpOCW7Q</div>
+            </div>
         </div>
 
-
-
-
-
-        
-
-    </div>
-
-    <!-- MODAL -->
-    <div id="modal" class="modal-container">
-        <div class="modal-content">
-            <span id="closeModal" class="close">&times;</span>
-            <img id="modal-logo" src="" alt="Logo de la película">
-            <h2 id="modal-title"></h2>
-            <p>Redirigiendo en <span id="countdown">5</span> segundos...</p>
+        <!-- MODAL -->
+        <div id="modal" class="modal-container">
+            <div class="modal-content">
+                <span id="closeModal" class="close">×</span>
+                <img id="modal-logo" src="" alt="Logo de la película">
+                <h2 id="modal-title"></h2>
+                <p>Redirigiendo en <span id="countdown">5</span> segundos...</p>
+            </div>
         </div>
-    </div>
 
-    <script>
-        function volverInicio() {
-            window.location.href = "index.html";
-        }
-    </script>
-
-    <script src="script.js"></script>
-    <script src="java.js"></script>
         <script>
-    document.addEventListener('contextmenu', function (e) {
-        e.preventDefault(); // Desactiva el menú de clic derecho
-    });
-</script>
+            function volverInicio() {
+                window.location.href = "index.html";
+            }
 
-<script>
-    document.onkeydown = function(e) {
-        if (e.ctrlKey && e.keyCode == 85) {
-            alert('¡Acción deshabilitada!');
-            return false;
-        }
-        if (e.keyCode == 123) { // F12
-            alert('¡Acción deshabilitada!');
-            return false;
-        }
-    }
-</script>
-</body>
+            function toggleMenu() {
+                let menu = document.getElementById("navMenu");
+                menu.classList.toggle("active");
+            }
+        </script>
+
+        <script>
+            document.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
+        </script>
+
+        <script>
+            document.onkeydown = function(e) {
+                if (e.ctrlKey && e.keyCode == 85) {
+                    alert('¡Acción deshabilitada!');
+                    return false;
+                }
+                if (e.keyCode == 123) {
+                    alert('¡Acción deshabilitada!');
+                    return false;
+                }
+            }
+        </script>
+
+        <script src="script.js"></script>
+        <script src="java.js"></script>
+    </body>
 </html>
