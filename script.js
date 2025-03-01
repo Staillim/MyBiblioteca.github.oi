@@ -8,7 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    // Asegurar que el modal esté oculto al cargar la página
     modal.style.display = "none";
+
+    // Limpiar el intervalo al cargar la página para evitar temporizadores residuales
+    clearInterval(interval);
 
     function mostrarInfo(element, esSerie) {
         let tituloElement = element.querySelector('.title');
@@ -56,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function iniciarCuentaRegresiva(redireccion) {
         let tiempo = 5;
-        clearInterval(interval);
+        clearInterval(interval); // Limpiar cualquier intervalo previo
 
         countdownElement.textContent = tiempo;
 
@@ -64,8 +68,9 @@ document.addEventListener("DOMContentLoaded", function () {
             tiempo--;
             countdownElement.textContent = tiempo;
 
-            if (tiempo === 0) {
+            if (tiempo <= 0) {
                 clearInterval(interval);
+                modal.style.display = "none"; // Cerrar el modal antes de redirigir
                 window.location.href = redireccion;
             }
         }, 1000);
@@ -105,8 +110,6 @@ document.addEventListener("DOMContentLoaded", function () {
         let input = searchInput.value.toLowerCase();
         let tarjetas = document.querySelectorAll(".card");
 
-
-
         tarjetas.forEach(card => {
             let tituloElement = card.querySelector(".title");
             let categoria = card.getAttribute("data-categoria") || "";
@@ -129,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let categoriaFiltro = categoria.toLowerCase();
         tarjetas.forEach(card => {
             let cardCategoria = (card.getAttribute("data-categoria") || "").toLowerCase();
-            console.log(`Comparando: filtro="${categoriaFiltro}" vs tarjeta="${cardCategoria}"`); // Depuración
+            console.log(`Comparando: filtro="${categoriaFiltro}" vs tarjeta="${cardCategoria}"`);
             card.style.display = (categoriaFiltro === "" || cardCategoria === categoriaFiltro) ? "block" : "none";
         });
 
@@ -151,13 +154,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     window.filtrarPorCategoria = filtrarPorCategoria;
+
+    // Manejar el retroceso (popstate) para ocultar el modal
+    window.addEventListener("popstate", function () {
+        modal.style.display = "none";
+        clearInterval(interval);
+    });
 });
 
 // Cerrar menú al hacer clic fuera
 document.addEventListener("click", function (event) {
     let menu = document.getElementById("navMenu");
     let hamburger = document.querySelector(".hamburger");
-    if (menu.classList.contains("active") && !menu.contains(event.target) && !hamburger.contains(event.target)) {
+    if (menu && menu.classList.contains("active") && !menu.contains(event.target) && !hamburger.contains(event.target)) {
         menu.classList.remove("active");
     }
 });
