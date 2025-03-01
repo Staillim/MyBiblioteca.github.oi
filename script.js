@@ -105,11 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let input = searchInput.value.toLowerCase();
         let tarjetas = document.querySelectorAll(".card");
 
-        if (window.location.pathname !== "/" && !window.location.pathname.includes("index.html")) {
-            localStorage.setItem("busqueda", input);
-            window.location.href = "/index.html";
-            return;
-        }
+
 
         tarjetas.forEach(card => {
             let tituloElement = card.querySelector(".title");
