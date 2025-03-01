@@ -1,0 +1,91 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #111; /* Fondo oscuro */
+    color: white;
+    display: flex;
+    flex-direction: column; /* Asegura que todo esté centrado en columna */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+/* Contenedor centrado */
+.entrada-container {
+    background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Ajustar el título */
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+/* Imagen de la película */
+img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Botón estilizado manualmente */
+.boton {
+    display: inline-block;
+    background-color: #007bff; /* Azul estilo Bootstrap */
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background 0.3s ease-in-out;
+}
+
+.boton:hover {
+    background-color: #0056b3; /* Azul más oscuro en hover */
+}
+
+/* 🔥 Estilos para los seleccionadores de series y capítulos */
+.select-container {
+    margin-top: 15px;
+}
+
+.select-container label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.select-container select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background: #222; /* Fondo oscuro */
+    color: white;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* Efecto al pasar el mouse */
+.select-container select:hover {
+    background: #333;
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Películas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modal.css">
+</head>
+<body>
+
+    <div>
+        <header>
+            <h1 onclick="volverInicio()" style="cursor: pointer;">My Biblioteca</h1>
+            <div class="header-buttons">
+                <input type="text" id="searchInput" placeholder="Buscar película..." onkeyup="filtrarPeliculas()">
+                
+
+            </div>
+        </header>
+
+
+        
+        <div class="container">
+            
+        <!-- ENtradas Nuevas -->
+
+        
+<div class="card" onclick="guardarYRedirigir(this)">
+    <img src="https://pics.filmaffinity.com/Skin-988774585-large.jpg" alt="Skin">
+    <div class="badge">
+        <img src="./img/hd.png.webp" alt="HD">
+    </div>
+    <div class="title">Skin</div>
+    <div class="link" style="display: none;">https://terabox.com/s/1nhJbaNxCkzl32v5mX0gJog</div>
+</div>
+
+
+
+           <!-- Tarjetas de películas -->
+           <div class="card" onclick="guardarYRedirigir(this)">
+            <img src="https://es.web.img3.acsta.net/pictures/15/04/28/11/53/597849.jpg" alt="Película 1">
+            <div class="badge">
+                <img src="./img/hd.png.webp" alt="HD">
+            </div>
+            <div class="title">Tomorrowland</div>
+            <div class="link" style="display: none;">https://terabox.com/s/1Qs3A6qgOvZwgZPRsFXZ8Rg</div>
+        </div>
+        
+        <div class="card" onclick="guardarYRedirigir(this)">
+            <img src="https://m.media-amazon.com/images/S/pv-target-images/95df6af83a949c53078666663510af758a2423e5567f275a3dbd63f166a9ae16.jpg" alt="Película 2">
+            <div class="badge">
+                <img src="./img/hd.png.webp" alt="HD">
+            </div>
+            <div class="title">El dictador</div>
+            <div class="link" style="display: none;">https://terabox.com/s/1R6bKJMPtDY5bIVUl1Pe9eg</div>
+        </div>
+        
+        <div class="card" onclick="guardarYRedirigir(this)">
+            <img class="img" src="https://pics.filmaffinity.com/Terrifier_3-141451507-large.jpg" alt="Película 3">
+            <div class="badge">
+                <img src="./img/hd.png.webp" alt="HD">
+            </div>
+            <div class="title">Terrifier 3</div>
+            <div class="link" style="display: none;">https://terabox.com/s/1-2ee_PCbv-oaZk_PwZGKFQ</div>
+        </div>
+
+        <div class="card" onclick="guardarYRedirigir(this)">
+            <img src="https://m.media-amazon.com/images/S/pv-target-images/c2d6430ada2a73209fc05ff1e79cd3dfdf46c92326bed76262d40bd5033e2bb4.jpg" alt="Película 1">
+            <div class="badge">
+                <img src="./img/hd.png.webp" alt="HD">
+            </div>
+            <div class="title">Venom: El último baile</div>
+            <div class="link" style="display: none;">https://terabox.com/s/1L0ctQZPl9JfKsmS37k4vhg</div>
+        </div>
+
+        <div class="card" onclick="guardarYRedirigir(this)">
+            <img src="https://m.media-amazon.com/images/M/MV5BNDU4Mzc3NzE5NV5BMl5BanBnXkFtZTgwMzE1NzI1NzM@._V1_.jpg" alt="Película 1">
+            <div class="badge">
+                <img src="./img/hd.png.webp" alt="HD">
+            </div>
+            <div class="title">Pokémon: detective Pikachu</div>
+            <div class="link" style="display: none;">https://terabox.com/s/1rMKoJQLD72m13FeRpOCW7Q</div>
+        </div>
+
+<!-- Tarjeta de Serie -->
+<div class="card serie-card" onclick="mostrarInfoSerie(this)">
+    <img src="https://es.web.img3.acsta.net/pictures/22/10/04/16/26/1929878.jpg" alt="Póster de la serie">
+    <h3 class="title">El señor de los anillos: los anillos de poder</h3>
+    <span class="quality">HD</span>
+    <div class="links-capitulos" style="display: none;">
+        <span data-temporada="1" data-capitulo="1">https://enlace-capitulo-1.com</span>
+        <span data-temporada="1" data-capitulo="2">https://enlace-capitulo-2.com</span>
+        <span data-temporada="2" data-capitulo="1">https://enlace-capitulo-1.com</span>
+        <span data-temporada="2" data-capitulo="2">https://enlace-capitulo-2.com</span>
+    </div>
+</div>
+
+<!-- Tarjeta de Serie -->
+<div class="card serie-card" onclick="mostrarInfoSerie(this)">
+    <img src="https://m.media-amazon.com/images/M/MV5BMDI3YWMxOTUtN2JiNC00NWY3LWI2NDMtMTIwYTAwYzkyZjI3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="Póster de la serie">
+    <h3 class="title">Stranger Things</h3>
+    <span class="quality">HD</span>
+    <div class="links-capitulos" style="display: none;">
+        <span data-temporada="1" data-capitulo="1">https://enlace-capitulo-1.com</span>
+        <span data-temporada="1" data-capitulo="2">https://enlace-capitulo-2.com</span>
+        <span data-temporada="2" data-capitulo="1">https://enlace-capitulo-1.com</span>
+        <span data-temporada="2" data-capitulo="2">https://enlace-capitulo-2.com</span>
+    </div>
+</div>
+
+
+
+        
+
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal" class="modal-container">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <img id="modal-logo" src="" alt="Logo de la película">
+            <h2 id="modal-title"></h2>
+            <p>Redirigiendo en <span id="countdown">5</span> segundos...</p>
+        </div>
+    </div>
+
+    <script>
+        function volverInicio() {
+            window.location.href = "index.html";
+        }
+    </script>
+
+    <script src="script.js"></script>
+    <script src="java.js"></script>
+</body>
+</html>

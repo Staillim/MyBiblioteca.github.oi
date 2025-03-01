@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrada a la Película</title>
+    <link rel="stylesheet" href="styles2.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div>
+        <header>
+            <h1 onclick="volverInicio()" style="cursor: pointer;">My Biblioteca</h1>
+            
+        </header>
+
+        <div class="entrada-container"> 
+            <h1 id="titulo"></h1>
+            <br>
+            <img id="imagen" src="" alt="Imagen de la película">
+            <br>
+            <a id="verPelicula" href="#" target="_blank" class="boton">Ver Película</a>
+            <br>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let titulo = localStorage.getItem("tituloPelicula");
+            let imagen = localStorage.getItem("imagenPelicula");
+            let link = localStorage.getItem("linkPelicula");
+
+            if (titulo && imagen && link) {
+                document.getElementById("titulo").textContent = titulo;
+                document.getElementById("imagen").src = imagen;
+                document.getElementById("verPelicula").href = link;
+            } else {
+                document.getElementById("titulo").textContent = "No hay datos disponibles";
+            }
+        });
+
+        function volverInicio() {
+            window.location.href = "index.html";
+        }
+    </script>
+    
+    <script>
+        function guardarYRedirigir(elemento) {
+            let titulo = elemento.querySelector(".title").textContent;
+            let imagen = elemento.querySelector("img").src;
+            let link = elemento.querySelector(".link").textContent;
+
+            localStorage.setItem("tituloPelicula", titulo);
+            localStorage.setItem("imagenPelicula", imagen);
+            localStorage.setItem("linkPelicula", link);
+
+            window.location.href = "entrada.html";
+        }
+    </script>
+    
+    <script src="script.js"></script>
+</body>
+</html>

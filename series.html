@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrada a la Serie</title>
+    <link rel="stylesheet" href="styles2.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div>
+        <header>
+            <h1 onclick="volverInicio()" style="cursor: pointer;">My Biblioteca</h1>
+            
+        </header>
+
+        <div class="entrada-container"> 
+            <h1 id="titulo"></h1>
+            <br>
+            <img id="imagen" src="" alt="Imagen de la serie">
+            <br>
+
+            <!-- Selector de Temporada -->
+            <label for="temporada">Temporada:</label>
+            <select id="temporada" onchange="cargarCapitulos()">
+                <option value="">Selecciona una temporada</option>
+            </select>
+
+            <!-- Selector de Capítulo -->
+            <div id="capitulos-container" style="display: none;">
+                <label for="capitulo">Capítulo:</label>
+                <select id="capitulo">
+                    <option value="">Selecciona un capítulo</option>
+                </select>
+            </div>
+
+            <!-- Botón para ver el capítulo -->
+            <br>
+            <a id="verCapitulo" href="#" target="_blank" class="boton" style="display: none;">Ver Capítulo</a>
+            <br>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let titulo = localStorage.getItem("tituloSerie");
+            let imagen = localStorage.getItem("imagenSerie");
+            let enlacesJSON = localStorage.getItem("enlacesSerie");
+
+            if (titulo && imagen && enlacesJSON) {
+                document.getElementById("titulo").textContent = titulo;
+                document.getElementById("imagen").src = imagen;
+
+                let enlaces = JSON.parse(enlacesJSON);
+                let temporadaSelect = document.getElementById("temporada");
+
+                let temporadas = new Set();
+                enlaces.forEach(enlace => temporadas.add(enlace.temporada));
+
+                temporadas.forEach(temp => {
+                    let option = document.createElement("option");
+                    option.value = temp;
+                    option.textContent = `Temporada ${temp}`;
+                    temporadaSelect.appendChild(option);
+                });
+
+            } else {
+                document.getElementById("titulo").textContent = "No hay datos disponibles";
+            }
+        });
+
+        function cargarCapitulos() {
+            let temporada = document.getElementById("temporada").value;
+            let enlaces = JSON.parse(localStorage.getItem("enlacesSerie"));
+            let capituloSelect = document.getElementById("capitulo");
+            let capitulosContainer = document.getElementById("capitulos-container");
+            let verCapitulo = document.getElementById("verCapitulo");
+
+            capituloSelect.innerHTML = '<option value="">Selecciona un capítulo</option>';
+
+            if (temporada) {
+                let capitulos = enlaces.filter(enlace => enlace.temporada == temporada);
+
+                capitulos.forEach(enlace => {
+                    let option = document.createElement("option");
+                    option.value = enlace.link;
+                    option.textContent = `Capítulo ${enlace.capitulo}`;
+                    capituloSelect.appendChild(option);
+                });
+
+                capitulosContainer.style.display = "block";
+            } else {
+                capitulosContainer.style.display = "none";
+                verCapitulo.style.display = "none";
+            }
+        }
+
+        document.getElementById("capitulo").addEventListener("change", function () {
+            let link = this.value;
+            let verCapitulo = document.getElementById("verCapitulo");
+
+            if (link) {
+                verCapitulo.href = link;
+                verCapitulo.style.display = "inline-block";
+            } else {
+                verCapitulo.style.display = "none";
+            }
+        });
+
+        function volverInicio() {
+            window.location.href = "index.html";
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let searchInput = document.getElementById("searchInput");
+            let searchResults = document.getElementById("searchResults");
+
+            if (!searchInput || !searchResults) return;
+
+            function buscarEnTiempoReal() {
+                let query = searchInput.value.toLowerCase();
+                let tarjetas = document.querySelectorAll(".card");
+                let resultados = [];
+
+                searchResults.innerHTML = "";
+
+                tarjetas.forEach(card => {
+                    let titulo = card.querySelector(".title").textContent.toLowerCase();
+                    if (titulo.includes(query)) {
+                        resultados.push(card.outerHTML);
+                    }
+                });
+
+                if (resultados.length > 0) {
+                    searchResults.innerHTML = resultados.join("");
+                    searchResults.style.display = "block";
+                } else {
+                    searchResults.style.display = "none";
+                }
+
+                if (resultados.length === 0 && !window.location.pathname.includes("index.html")) {
+                    localStorage.setItem("busqueda", query);
+                    window.location.href = "index.html";
+                }
+            }
+
+            if (window.location.pathname.includes("index.html")) {
+                let busquedaGuardada = localStorage.getItem("busqueda");
+                if (busquedaGuardada) {
+                    searchInput.value = busquedaGuardada;
+                    buscarEnTiempoReal();
+                    localStorage.removeItem("busqueda");
+                }
+            }
+
+            searchInput.addEventListener("input", buscarEnTiempoReal);
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
