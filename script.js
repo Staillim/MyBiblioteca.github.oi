@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function iniciarCuentaRegresiva(redireccion) {
-        let tiempo = 5;
+        let tiempo = 10;
         clearInterval(interval);
 
         countdownElement.textContent = tiempo;
