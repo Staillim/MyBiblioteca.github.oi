@@ -14,8 +14,40 @@ document.addEventListener("DOMContentLoaded", function () {
     // Limpiar el intervalo al cargar la página para evitar temporizadores residuales
     clearInterval(interval);
 
+    // Nueva función para actualizar los contadores de categorías
+    function actualizarContadores() {
+        const categorias = {
+            'anime': 0,
+            'acción': 0,
+            'aventura': 0,
+            'ciencia ficción': 0,
+            'comedia': 0,
+            'drama': 0,
+            'terror': 0,
+            '': 0 // Para "Todas"
+        };
+
+        // Contar tarjetas por categoría
+        document.querySelectorAll('.card').forEach(card => {
+            const categoria = card.getAttribute('data-categoria') || '';
+            if (categorias.hasOwnProperty(categoria)) {
+                categorias[categoria]++;
+            }
+            categorias['']++; // Incrementar "Todas" por cada tarjeta
+        });
+
+        // Actualizar los contadores en el menú
+        for (const [cat, count] of Object.entries(categorias)) {
+            const spanId = cat === '' ? 'count-todas' : `count-${cat}`;
+            const span = document.getElementById(spanId);
+            if (span) {
+                span.textContent = count;
+            }
+        }
+    }
+
     function mostrarInfo(element, esSerie) {
-        let tituloElement = element.querySelector('.title');
+        let tituloElement = element.querySelector('.card-title');
         let imagenElement = element.querySelector('img');
         if (!tituloElement || !imagenElement) {
             console.error("Falta título o imagen en la tarjeta:", element);
@@ -34,7 +66,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 enlaces.push({
                     temporada: enlace.getAttribute("data-temporada"),
                     capitulo: enlace.getAttribute("data-capitulo"),
-                    link: enlace.textContent
+                    terabox: enlace.getAttribute("data-terabox") || "",
+                    server1: enlace.getAttribute("data-server1") || "",
+                    server2: enlace.getAttribute("data-server2") || ""
                 });
             });
             localStorage.setItem("tituloSerie", titulo);
@@ -43,14 +77,25 @@ document.addEventListener("DOMContentLoaded", function () {
             destino = "./series.html";
         } else {
             let linkElement = element.querySelector('.link');
+            let server1Element = element.querySelector('.server1');
+            let server2Element = element.querySelector('.server2');
+            let descriptionElement = element.querySelector('.description');
+
             if (!linkElement) {
                 console.error("Falta enlace en la tarjeta de película:", element);
                 return;
             }
             let link = linkElement.textContent;
+            let server1 = server1Element ? server1Element.textContent : "";
+            let server2 = server2Element ? server2Element.textContent : "";
+            let descripcion = descriptionElement ? descriptionElement.textContent : "";
+
             localStorage.setItem("tituloPelicula", titulo);
             localStorage.setItem("imagenPelicula", imagen);
             localStorage.setItem("linkPelicula", link);
+            localStorage.setItem("server1", server1);
+            localStorage.setItem("server2", server2);
+            localStorage.setItem("descripcionPelicula", descripcion);
             destino = "./entrada.html";
         }
 
@@ -60,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function iniciarCuentaRegresiva(redireccion) {
         let tiempo = 5;
-        clearInterval(interval); // Limpiar cualquier intervalo previo
+        clearInterval(interval);
 
         countdownElement.textContent = tiempo;
 
@@ -70,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (tiempo <= 0) {
                 clearInterval(interval);
-                modal.style.display = "none"; // Cerrar el modal antes de redirigir
+                modal.style.display = "none";
                 window.location.href = redireccion;
             }
         }, 1000);
@@ -111,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let tarjetas = document.querySelectorAll(".card");
 
         tarjetas.forEach(card => {
-            let tituloElement = card.querySelector(".title");
+            let tituloElement = card.querySelector(".card-title");
             let categoria = card.getAttribute("data-categoria") || "";
             if (tituloElement) {
                 let titulo = tituloElement.textContent.toLowerCase();
@@ -121,6 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 card.style.display = "none";
             }
         });
+        actualizarContadores(); // Actualizar contadores después de filtrar
     }
 
     // Filtrar por categoría del menú
@@ -132,12 +178,12 @@ document.addEventListener("DOMContentLoaded", function () {
         let categoriaFiltro = categoria.toLowerCase();
         tarjetas.forEach(card => {
             let cardCategoria = (card.getAttribute("data-categoria") || "").toLowerCase();
-            console.log(`Comparando: filtro="${categoriaFiltro}" vs tarjeta="${cardCategoria}"`);
             card.style.display = (categoriaFiltro === "" || cardCategoria === categoriaFiltro) ? "block" : "none";
         });
 
         let searchInput = document.getElementById("searchInput");
         if (searchInput) searchInput.value = "";
+        actualizarContadores(); // Actualizar contadores después de filtrar
     }
 
     let searchInput = document.getElementById("searchInput");
@@ -160,6 +206,9 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.style.display = "none";
         clearInterval(interval);
     });
+
+    // Actualizar contadores al cargar la página
+    actualizarContadores();
 });
 
 // Cerrar menú al hacer clic fuera

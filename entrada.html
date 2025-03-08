@@ -27,107 +27,210 @@
         </header>
 
         <div class="entrada-container"> 
-            <!-- Anuncio Lateral Izquierdo -->
             <div class="side-ad left-ad">
                 <script type="text/javascript">
                     atOptions = {
-                        'key' : 'e96a39c04a66f1af8432a56ca9a7c1cf',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
+                        'key': 'e96a39c04a66f1af8432a56ca9a7c1cf',
+                        'format': 'iframe',
+                        'height': 250,
+                        'width': 300,
+                        'params': {}
                     };
                 </script>
-                <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
+                                    <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
+
             </div>
 
-            <!-- Contenido Principal -->
             <div class="entrada-content">
                 <h1 id="titulo"></h1>
                 <br>
                 <img id="imagen" src="" alt="Imagen de la película">
                 <br>
-                <a id="verPelicula" href="#" target="_blank" class="boton">Ver Película</a>
+                <p id="descripcion" style="color: white; text-align: center; padding: 10px;"></p>
+                <div class="reproductor-container">
+                    <div class="server-buttons">
+                        <button class="server-btn active" data-server="server1">Servidor 1</button>
+                        <button class="server-btn" data-server="server2">Servidor 2</button>
+                        <button class="server-btn" data-server="terabox">Terabox</button>
+                    </div>
+                    <div class="reproductor">
+                        <iframe id="reproductor-iframe" src="" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+                        <a id="terabox-link" href="#" target="_blank" style="display: none;">Ver en Terabox</a>
+                        <div id="server-message" style="display: none; color: white; text-align: center; padding: 20px; background-color: #333; border-radius: 5px;">No disponible</div>
+                    </div>
+                </div>
                 <br>
             </div>
 
-            <!-- Anuncio Lateral Derecho -->
             <div class="side-ad right-ad">
                 <script type="text/javascript">
                     atOptions = {
-                        'key' : 'e96a39c04a66f1af8432a56ca9a7c1cf',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
+                        'key': 'e96a39c04a66f1af8432a56ca9a7c1cf',
+                        'format': 'iframe',
+                        'height': 250,
+                        'width': 300,
+                        'params': {}
                     };
                 </script>
-                <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
+                   <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
+
             </div>
         </div>
 
-        <!-- Banner de Anuncio Centrado -->
         <div class="ad-overlay" id="adOverlay">
             <div class="ad-banner" id="adBanner">
                 <div class="ad-content">
                     <script type="text/javascript">
                         atOptions = {
-                            'key' : 'e96a39c04a66f1af8432a56ca9a7c1cf',
-                            'format' : 'iframe',
-                            'height' : 250,
-                            'width' : 300,
-                            'params' : {}
+                            'key': 'e96a39c04a66f1af8432a56ca9a7c1cf',
+                            'format': 'iframe',
+                            'height': 250,
+                            'width': 300,
+                            'params': {}
                         };
                     </script>
                     <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
                 </div>
-                <button id="closeAd" disabled> Continuar (5s)</button>
+                <button id="closeAd" disabled>Cerrar (5s)</button>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // Cargar datos de la película
             let titulo = localStorage.getItem("tituloPelicula");
             let imagen = localStorage.getItem("imagenPelicula");
             let link = localStorage.getItem("linkPelicula");
+            let server1 = localStorage.getItem("server1");
+            let server2 = localStorage.getItem("server2");
+            let descripcion = localStorage.getItem("descripcionPelicula");
 
-            if (titulo && imagen && link) {
+            console.log("Valores recuperados de localStorage:");
+            console.log("Título:", titulo);
+            console.log("Imagen:", imagen);
+            console.log("Descripción:", descripcion);
+            console.log("Link:", link);
+            console.log("Server1:", server1);
+            console.log("Server2:", server2);
+
+            if (titulo && imagen) {
                 document.getElementById("titulo").textContent = titulo;
                 document.getElementById("imagen").src = imagen;
-                document.getElementById("verPelicula").href = link;
+                document.getElementById("descripcion").textContent = descripcion || "Sin descripción disponible";
+
+                const servidores = {
+                    server1: server1,
+                    server2: server2,
+                    terabox: link
+                };
+
+                const iframe = document.getElementById("reproductor-iframe");
+                const teraboxLink = document.getElementById("terabox-link");
+                const serverMessage = document.getElementById("server-message");
+
+                if (servidores.server1) {
+                    iframe.src = servidores.server1;
+                    iframe.style.display = "block";
+                    teraboxLink.style.display = "none";
+                    serverMessage.style.display = "none";
+                } else {
+                    iframe.style.display = "none";
+                    teraboxLink.style.display = "none";
+                    serverMessage.style.display = "block";
+                }
+
+                document.querySelectorAll(".server-btn").forEach(btn => {
+                    btn.addEventListener("click", function () {
+                        document.querySelectorAll(".server-btn").forEach(b => b.classList.remove("active"));
+                        this.classList.add("active");
+
+                        const server = this.getAttribute("data-server");
+                        if (server === "terabox" && servidores[server]) {
+                            teraboxLink.href = servidores[server];
+                            teraboxLink.style.display = "block";
+                            iframe.style.display = "none";
+                            serverMessage.style.display = "none";
+                        } else if (servidores[server]) {
+                            iframe.src = servidores[server];
+                            iframe.style.display = "block";
+                            teraboxLink.style.display = "none";
+                            serverMessage.style.display = "none";
+                        } else {
+                            iframe.style.display = "none";
+                            teraboxLink.style.display = "none";
+                            serverMessage.style.display = "block";
+                        }
+                    });
+                });
             } else {
                 document.getElementById("titulo").textContent = "No hay datos disponibles";
+                document.getElementById("server-message").style.display = "block";
             }
 
-            // Temporizador para el banner de anuncio centrado
-            let adOverlay = document.getElementById("adOverlay");
-            let closeAdBtn = document.getElementById("closeAd");
+            // Temporizador del anuncio
+            const adOverlay = document.getElementById("adOverlay");
+            const closeAdBtn = document.getElementById("closeAd");
             let timeLeft = 5;
 
-            // Bloquear interacciones con la página
-            document.body.style.overflow = "hidden";
-
-            closeAdBtn.disabled = true;
-            closeAdBtn.textContent = `Cerrar (${timeLeft}s)`;
-
-            let adTimer = setInterval(() => {
-                timeLeft--;
+            if (adOverlay && closeAdBtn) {
+                console.log("Iniciando temporizador del anuncio...");
+                document.body.style.overflow = "hidden";
+                closeAdBtn.disabled = true;
                 closeAdBtn.textContent = `Cerrar (${timeLeft}s)`;
-                if (timeLeft <= 0) {
-                    clearInterval(adTimer);
-                    closeAdBtn.disabled = false;
-                    closeAdBtn.textContent = "Cerrar";
-                }
-            }, 1000);
 
-            closeAdBtn.addEventListener("click", function () {
-                if (!closeAdBtn.disabled) {
-                    adOverlay.style.display = "none";
-                    document.body.style.overflow = "auto";
-                }
-            });
+                const adTimer = setInterval(() => {
+                    console.log("Tiempo restante:", timeLeft);
+                    timeLeft--;
+                    closeAdBtn.textContent = `Cerrar (${timeLeft}s)`;
+                    if (timeLeft <= 0) {
+                        clearInterval(adTimer);
+                        closeAdBtn.disabled = false;
+                        closeAdBtn.textContent = "Cerrar";
+                        console.log("Temporizador finalizado, botón habilitado.");
+                    }
+                }, 1000);
+
+                closeAdBtn.addEventListener("click", function () {
+                    if (!closeAdBtn.disabled) {
+                        adOverlay.style.display = "none";
+                        document.body.style.overflow = "auto";
+                        console.log("Anuncio cerrado.");
+                    }
+                });
+            } else {
+                console.error("Error: No se encontraron los elementos adOverlay o closeAd.");
+            }
         });
+
+        function guardarYRedirigir(element) {
+            let tituloElement = element.querySelector('.card-title');
+            let imagenElement = element.querySelector('img');
+            let linkElement = element.querySelector('.link');
+            let server1Element = element.querySelector('.server1');
+            let server2Element = element.querySelector('.server2');
+            let descriptionElement = element.querySelector('.description');
+
+            console.log("Elementos encontrados en la tarjeta:");
+            console.log("Título:", tituloElement ? tituloElement.textContent : "No encontrado");
+            console.log("Imagen:", imagenElement ? imagenElement.src : "No encontrada");
+            console.log("Descripción:", descriptionElement ? descriptionElement.textContent : "No encontrada");
+            console.log("Link:", linkElement ? linkElement.textContent : "No encontrado");
+            console.log("Server1:", server1Element ? server1Element.textContent : "No encontrado");
+            console.log("Server2:", server2Element ? server2Element.textContent : "No encontrado");
+
+            if (tituloElement && imagenElement) {
+                localStorage.setItem("tituloPelicula", tituloElement.textContent);
+                localStorage.setItem("imagenPelicula", imagenElement.src);
+                localStorage.setItem("linkPelicula", linkElement ? linkElement.textContent : "");
+                localStorage.setItem("server1", server1Element ? server1Element.textContent : "");
+                localStorage.setItem("server2", server2Element ? server2Element.textContent : "");
+                localStorage.setItem("descripcionPelicula", descriptionElement ? descriptionElement.textContent : "");
+                window.location.href = "./entrada.html";
+            } else {
+                console.error("Faltan elementos esenciales (título o imagen) en la tarjeta.");
+            }
+        }
 
         function volverInicio() {
             window.location.href = "index.html";
@@ -145,9 +248,5 @@
     </script>
 
     <script src="script.js"></script>
-     <!-- anuncio -->
-
-     <script type='text/javascript' src='//padsims.com/8a/b8/6d/8ab86d7007070b5807e700a1cf0d7981.js'></script>
-
 </body>
 </html>

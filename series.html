@@ -27,8 +27,6 @@
         </header>
 
         <div class="entrada-container"> 
-
-            <!-- Anuncio Lateral Izquierdo -->
             <div class="side-ad left-ad">
                 <script type="text/javascript">
                     atOptions = {
@@ -41,9 +39,7 @@
                 </script>
                 <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
             </div>
-            <br>
 
-            <!-- Contenido Principal -->
             <div class="entrada-content">
                 <h1 id="titulo"></h1>
                 <br>
@@ -55,17 +51,26 @@
                 </select>
                 <div id="capitulos-container" style="display: none;">
                     <label for="capitulo">Capítulo:</label>
-                    <select id="capitulo">
+                    <select id="capitulo" onchange="cargarReproductor()">
                         <option value="">Selecciona un capítulo</option>
                     </select>
                 </div>
                 <br>
-                <a id="verCapitulo" href="#" target="_blank" class="boton" style="display: none;">Ver Capítulo</a>
+                <div class="reproductor-container" id="reproductor-container" style="display: none;">
+                    <div class="server-buttons">
+                        <button class="server-btn active" data-server="server1">Servidor 1</button>
+                        <button class="server-btn" data-server="server2">Servidor 2</button>
+                        <button class="server-btn" data-server="terabox">Terabox</button>
+                    </div>
+                    <div class="reproductor">
+                        <iframe id="reproductor-iframe" src="" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+                        <a id="terabox-link" href="#" target="_blank" style="display: none;">Ver en Terabox</a>
+                        <div id="server-message" style="display: none; color: white; text-align: center; padding: 20px; background-color: #333; border-radius: 5px;">No disponible</div>
+                    </div>
+                </div>
                 <br>
             </div>
 
-            <br>
-            <!-- Anuncio Lateral Derecho -->
             <div class="side-ad right-ad">
                 <script type="text/javascript">
                     atOptions = {
@@ -80,7 +85,6 @@
             </div>
         </div>
 
-        <!-- Banner de Anuncio Centrado -->
         <div class="ad-overlay" id="adOverlay">
             <div class="ad-banner" id="adBanner">
                 <div class="ad-content">
@@ -95,7 +99,7 @@
                     </script>
                     <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
                 </div>
-                <button id="closeAd" disabled>Continuar (5s)</button>
+                <button id="closeAd" disabled>Cerrar (5s)</button>
             </div>
         </div>
     </div>
@@ -124,35 +128,36 @@
                 });
             } else {
                 document.getElementById("titulo").textContent = "No hay datos disponibles";
+                document.getElementById("reproductor-container").style.display = "none";
             }
 
-            // Temporizador para el banner de anuncio centrado
-            let adOverlay = document.getElementById("adOverlay");
-            let closeAdBtn = document.getElementById("closeAd");
+            // Temporizador del anuncio
+            const adOverlay = document.getElementById("adOverlay");
+            const closeAdBtn = document.getElementById("closeAd");
             let timeLeft = 5;
 
-            // Bloquear interacciones con la página
-            document.body.style.overflow = "hidden";
-
-            closeAdBtn.disabled = true;
-            closeAdBtn.textContent = `Cerrar (${timeLeft}s)`;
-
-            let adTimer = setInterval(() => {
-                timeLeft--;
+            if (adOverlay && closeAdBtn) {
+                document.body.style.overflow = "hidden";
+                closeAdBtn.disabled = true;
                 closeAdBtn.textContent = `Cerrar (${timeLeft}s)`;
-                if (timeLeft <= 0) {
-                    clearInterval(adTimer);
-                    closeAdBtn.disabled = false;
-                    closeAdBtn.textContent = "Cerrar";
-                }
-            }, 1000);
 
-            closeAdBtn.addEventListener("click", function () {
-                if (!closeAdBtn.disabled) {
-                    adOverlay.style.display = "none";
-                    document.body.style.overflow = "auto";
-                }
-            });
+                const adTimer = setInterval(() => {
+                    timeLeft--;
+                    closeAdBtn.textContent = `Cerrar (${timeLeft}s)`;
+                    if (timeLeft <= 0) {
+                        clearInterval(adTimer);
+                        closeAdBtn.disabled = false;
+                        closeAdBtn.textContent = "Cerrar";
+                    }
+                }, 1000);
+
+                closeAdBtn.addEventListener("click", function () {
+                    if (!closeAdBtn.disabled) {
+                        adOverlay.style.display = "none";
+                        document.body.style.overflow = "auto";
+                    }
+                });
+            }
         });
 
         function cargarCapitulos() {
@@ -160,38 +165,93 @@
             let enlaces = JSON.parse(localStorage.getItem("enlacesSerie"));
             let capituloSelect = document.getElementById("capitulo");
             let capitulosContainer = document.getElementById("capitulos-container");
-            let verCapitulo = document.getElementById("verCapitulo");
+            let reproductorContainer = document.getElementById("reproductor-container");
 
             capituloSelect.innerHTML = '<option value="">Selecciona un capítulo</option>';
 
             if (temporada) {
-                let capitulos = enlaces.filter(enlace => enlace.temporada == temporada);
+                let capitulos = enlaces.filter(enlace => enlace.temporada === temporada);
 
                 capitulos.forEach(enlace => {
                     let option = document.createElement("option");
-                    option.value = enlace.link;
+                    option.value = JSON.stringify({
+                        terabox: enlace.terabox,
+                        server1: enlace.server1,
+                        server2: enlace.server2
+                    });
                     option.textContent = `Capítulo ${enlace.capitulo}`;
                     capituloSelect.appendChild(option);
                 });
 
                 capitulosContainer.style.display = "block";
+                reproductorContainer.style.display = "none";
             } else {
                 capitulosContainer.style.display = "none";
-                verCapitulo.style.display = "none";
+                reproductorContainer.style.display = "none";
             }
         }
 
-        document.getElementById("capitulo").addEventListener("change", function () {
-            let link = this.value;
-            let verCapitulo = document.getElementById("verCapitulo");
+        function cargarReproductor() {
+            let capituloData = document.getElementById("capitulo").value;
+            let reproductorContainer = document.getElementById("reproductor-container");
+            let iframe = document.getElementById("reproductor-iframe");
+            let teraboxLink = document.getElementById("terabox-link");
+            let serverMessage = document.getElementById("server-message");
 
-            if (link) {
-                verCapitulo.href = link;
-                verCapitulo.style.display = "inline-block";
+            if (capituloData) {
+                let servidores = JSON.parse(capituloData);
+                reproductorContainer.style.display = "block";
+
+                // Priorizar servidor disponible (server1, server2, terabox) sin enlace predefinido
+                let servidorInicial = servidores.server1 || servidores.server2 || servidores.terabox || "";
+                if (servidorInicial) {
+                    if (servidorInicial === servidores.terabox) {
+                        teraboxLink.href = servidores.terabox;
+                        teraboxLink.style.display = "block";
+                        iframe.style.display = "none";
+                        serverMessage.style.display = "none";
+                    } else {
+                        iframe.src = servidorInicial;
+                        iframe.style.display = "block";
+                        teraboxLink.style.display = "none";
+                        serverMessage.style.display = "none";
+                    }
+                } else {
+                    iframe.style.display = "none";
+                    teraboxLink.style.display = "none";
+                    serverMessage.style.display = "block";
+                }
+
+                document.querySelectorAll(".server-btn").forEach(btn => {
+                    // Limpiar eventos previos para evitar duplicados
+                    btn.removeEventListener("click", btn._clickHandler);
+                    btn._clickHandler = function () {
+                        document.querySelectorAll(".server-btn").forEach(b => b.classList.remove("active"));
+                        this.classList.add("active");
+
+                        const server = this.getAttribute("data-server");
+                        if (server === "terabox" && servidores.terabox) {
+                            teraboxLink.href = servidores.terabox;
+                            teraboxLink.style.display = "block";
+                            iframe.style.display = "none";
+                            serverMessage.style.display = "none";
+                        } else if (servidores[server]) {
+                            iframe.src = servidores[server];
+                            iframe.style.display = "block";
+                            teraboxLink.style.display = "none";
+                            serverMessage.style.display = "none";
+                        } else {
+                            iframe.style.display = "none";
+                            teraboxLink.style.display = "none";
+                            serverMessage.style.display = "block";
+                        }
+                    };
+                    btn.addEventListener("click", btn._clickHandler);
+                });
             } else {
-                verCapitulo.style.display = "none";
+                reproductorContainer.style.display = "none";
             }
-        });
+        }
 
         function volverInicio() {
             window.location.href = "index.html";
@@ -206,15 +266,33 @@
             localStorage.setItem("categoriaFiltro", categoria);
             window.location.href = "index.html";
         }
+
+        function mostrarInfoSerie(element) {
+            let tituloElement = element.querySelector('.card-title');
+            let imagenElement = element.querySelector('img');
+            let enlacesElements = element.querySelectorAll('.links-capitulos span');
+
+            if (tituloElement && imagenElement && enlacesElements.length > 0) {
+                let enlaces = [];
+                enlacesElements.forEach(enlace => {
+                    enlaces.push({
+                        temporada: enlace.getAttribute("data-temporada"),
+                        capitulo: enlace.getAttribute("data-capitulo"),
+                        terabox: enlace.getAttribute("data-terabox") || "",
+                        server1: enlace.getAttribute("data-server1") || "",
+                        server2: enlace.getAttribute("data-server2") || ""
+                    });
+                });
+
+                localStorage.setItem("tituloSerie", tituloElement.textContent);
+                localStorage.setItem("imagenSerie", imagenElement.src);
+                localStorage.setItem("enlacesSerie", JSON.stringify(enlaces));
+                window.location.href = "./series.html";
+            }
+        }
     </script>
 
     <script src="script.js"></script>
-    <script src="java.js"></script>
-
-    <!-- anuncio -->
-
     <script type='text/javascript' src='//padsims.com/8a/b8/6d/8ab86d7007070b5807e700a1cf0d7981.js'></script>
-
-
 </body>
 </html>

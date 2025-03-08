@@ -33,7 +33,7 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 3000; /* Aumentado para estar encima de todo */
+    z-index: 3000;
 }
 
 /* Estilos del botón hamburguesa */
@@ -55,15 +55,15 @@ header {
 /* Estilos del menú desplegable */
 .nav-menu {
     display: none;
-    position: fixed; /* Cambiado a fixed para cubrir toda la pantalla */
-    top: 80px; /* Justo debajo del header */
-    left: 0; /* Alineado a la izquierda */
-    width: 200px; /* Ancho fijo del menú */
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 200px;
     background-color: #333;
     box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
-    border-radius: 0 5px 5px 0; /* Solo bordes redondeados a la derecha */
+    border-radius: 0 5px 5px 0;
     padding: 10px;
-    z-index: 3100; /* Encima de todo, incluso del ad-overlay (2000) */
+    z-index: 3100;
 }
 
 .nav-menu.active {
@@ -154,7 +154,7 @@ header {
 
 .swiper-slide .card {
     width: 200px;
-    height: 300px;
+    height: 340px;
     margin: 0 auto;
 }
 
@@ -239,20 +239,49 @@ header {
 .entrada-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Alinea al inicio para que crezca hacia abajo */
     width: 100%;
-    max-width: 1200px;
+    max-width: 1920px; /* Ajustado para soportar el reproductor en 1920px */
     margin: 20px auto;
     padding: 20px;
     position: relative;
     flex-wrap: wrap;
 }
 
-/* Contenido principal de entrada */
+/* Contenido principal de entrada - Centrado */
 .entrada-content {
-    text-align: center;
-    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente los hijos */
+    justify-content: center; /* Centra verticalmente si hay espacio */
+    text-align: center; /* Centra el texto */
     width: 100%;
+    max-width: 1200px; /* Limita el ancho máximo del contenido */
+    margin: 0 auto; /* Centra el contenedor en el padre */
+}
+
+/* Estilo para los elementos dentro de entrada-content */
+.entrada-content h1,
+.entrada-content img,
+.entrada-content select,
+.entrada-content .reproductor-container {
+    margin: 10px auto; /* Centra cada elemento horizontalmente */
+    width: 100%; /* Ocupa el ancho disponible */
+    max-width: 100%; /* Evita que exceda el contenedor */
+}
+
+.entrada-content img {
+    max-width: 300px; /* Limita el tamaño de la imagen */
+    height: auto;
+}
+
+.entrada-content select {
+    max-width: 200px; /* Limita el ancho de los selectores */
+    padding: 5px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #007bff;
+    border-radius: 5px;
 }
 
 /* Anuncios laterales */
@@ -281,46 +310,41 @@ header {
     max-width: 1200px;
 }
 
-/* Tarjetas de películas */
+/* Tarjetas de películas y series */
 .card {
     position: relative;
-    width: 150px;
-    height: 250px;
+    width: 200px;
+    height: 340px;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
     transition: transform 0.3s ease-in-out;
-    background-color: black;
-}
-
-.card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    background-color: #007bff;
+    display: flex;
+    flex-direction: column;
 }
 
 .card:hover {
     transform: scale(1.05);
 }
 
-/* Título dentro de la tarjeta */
-.title {
-    position: absolute;
-    top: 0;
+/* Contenedor de la imagen */
+.card-image {
     width: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    text-align: center;
-    padding: 3px 0;
-    font-size: 1.2vw;
-    font-weight: bold;
-    text-transform: uppercase;
+    height: 300px;
+    position: relative;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* Insignia HD */
 .badge {
     position: absolute;
-    top: 40px;
+    top: 10px;
     right: 5px;
     width: 40px;
     height: 40px;
@@ -338,7 +362,19 @@ header {
     object-fit: contain;
 }
 
-/* Calidad para series */
+/* Título debajo de la imagen */
+.card-title {
+    flex-grow: 1;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 1.2vw;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Calidad para series (sobre la imagen) */
 .quality {
     position: absolute;
     bottom: 10px;
@@ -346,6 +382,9 @@ header {
     background: rgba(0, 0, 0, 0.6);
     padding: 5px;
     border-radius: 3px;
+    color: white;
+    font-size: 0.9em;
+    text-transform: uppercase;
 }
 
 /* Responsividad */
@@ -366,7 +405,7 @@ header {
 
     .nav-menu {
         top: 60px;
-        left: 0; /* Alineado a la izquierda */
+        left: 0;
     }
 
     .entrada-container {
@@ -399,16 +438,20 @@ header {
 
     .card {
         width: 160px;
+        height: 280px;
+    }
+
+    .card-image {
         height: 240px;
+    }
+
+    .card-title {
+        font-size: 1em;
     }
 
     .swiper-slide .card {
         width: 160px;
-        height: 240px;
-    }
-
-    .title {
-        font-size: 1em;
+        height: 280px;
     }
 }
 
@@ -425,7 +468,7 @@ header {
 
     .nav-menu {
         top: 60px;
-        left: 0; /* Alineado a la izquierda */
+        left: 0;
     }
 
     h1 {
@@ -464,17 +507,21 @@ header {
 
     .card {
         width: 140px;
+        height: 240px;
+    }
+
+    .card-image {
         height: 200px;
+    }
+
+    .card-title {
+        font-size: 0.9em;
+        padding: 5px;
     }
 
     .swiper-slide .card {
         width: 140px;
-        height: 200px;
-    }
-
-    .title {
-        font-size: 0.9em;
-        padding: 5px 0;
+        height: 240px;
     }
 }
 
@@ -482,4 +529,103 @@ h1 {
     font-size: 24px;
     margin-bottom: 10px;
     color: white;
+}
+
+/* Reproductor (de respuestas anteriores, para asegurar compatibilidad) */
+.reproductor-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.server-buttons {
+    margin-bottom: 10px;
+}
+
+.server-btn {
+    padding: 8px 16px;
+    margin: 0 5px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.server-btn.active, .server-btn:hover {
+    background-color: #007bff;
+}
+
+
+.reproductor {
+    position: relative;
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+}
+
+.reproductor iframe {
+    width: 100%;
+    height: 1080px;
+    border: none;
+    border-radius: 5px;
+    max-height: 100vh;
+}
+
+.reproductor a {
+    display: block;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.reproductor a:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 1920px) {
+    .reproductor iframe {
+        height: calc(100vw * 9 / 16);
+    }
+}
+
+@media (max-width: 768px) {
+    .reproductor iframe {
+        height: calc(100vw * 9 / 16);
+        max-height: 432px;
+    }
+}
+
+@media (max-width: 480px) {
+    .reproductor iframe {
+        height: calc(100vw * 9 / 16);
+        max-height: 270px;
+    }
+}
+
+#descripcion {
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.nav-menu ul li {
+    cursor: pointer;
+    padding: 10px;
+}
+
+.nav-menu ul li span {
+    font-size: 0.9em;
+    color: #bbb; /* Color más claro para el contador */
+    margin-left: 5px;
 }
