@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {
     let modal = document.getElementById("modal");
     let countdownElement = document.getElementById("countdown");
@@ -16,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Nueva función para actualizar los contadores de categorías
     function actualizarContadores() {
-        const categorias = {
+        const categoriasContadas = {
             'anime': 0,
             'acción': 0,
             'aventura': 0,
@@ -27,17 +28,19 @@ document.addEventListener("DOMContentLoaded", function () {
             '': 0 // Para "Todas"
         };
 
-        // Contar tarjetas por categoría
+        // Contar tarjetas por categoría (múltiples categorías con data-categorias)
         document.querySelectorAll('.card').forEach(card => {
-            const categoria = card.getAttribute('data-categoria') || '';
-            if (categorias.hasOwnProperty(categoria)) {
-                categorias[categoria]++;
-            }
-            categorias['']++; // Incrementar "Todas" por cada tarjeta
+            const categorias = card.getAttribute('data-categorias')?.split(', ') || [];
+            categorias.forEach(categoria => {
+                if (categoriasContadas.hasOwnProperty(categoria)) {
+                    categoriasContadas[categoria]++;
+                }
+            });
+            categoriasContadas['']++; // Incrementar "Todas" por cada tarjeta
         });
 
         // Actualizar los contadores en el menú
-        for (const [cat, count] of Object.entries(categorias)) {
+        for (const [cat, count] of Object.entries(categoriasContadas)) {
             const spanId = cat === '' ? 'count-todas' : `count-${cat}`;
             const span = document.getElementById(spanId);
             if (span) {
@@ -66,9 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 enlaces.push({
                     temporada: enlace.getAttribute("data-temporada"),
                     capitulo: enlace.getAttribute("data-capitulo"),
-                    terabox: enlace.getAttribute("data-terabox") || "",
-                    server1: enlace.getAttribute("data-server1") || "",
-                    server2: enlace.getAttribute("data-server2") || ""
+                    server1: enlace.getAttribute("data-server1") || ""
                 });
             });
             localStorage.setItem("tituloSerie", titulo);
@@ -146,22 +147,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Filtrar por texto del buscador
-    function filtrarContenido() {
-        let searchInput = document.getElementById("searchInput");
-        if (!searchInput) {
-            console.error("Elemento searchInput no encontrado");
-            return;
-        }
-        let input = searchInput.value.toLowerCase();
+    function buscarTarjetas() {
+        let input = document.getElementById("searchInput").value.toLowerCase();
         let tarjetas = document.querySelectorAll(".card");
 
         tarjetas.forEach(card => {
             let tituloElement = card.querySelector(".card-title");
-            let categoria = card.getAttribute("data-categoria") || "";
+            let categorias = card.getAttribute("data-categorias")?.split(', ') || [];
             if (tituloElement) {
                 let titulo = tituloElement.textContent.toLowerCase();
-                let categoriaLower = categoria.toLowerCase();
-                card.style.display = (titulo.includes(input) || categoriaLower.includes(input)) ? "block" : "none";
+                let categoriasLower = categorias.map(cat => cat.toLowerCase()).join(' ');
+                card.style.display = (titulo.includes(input) || categoriasLower.includes(input)) ? "block" : "none";
             } else {
                 card.style.display = "none";
             }
@@ -177,8 +173,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let categoriaFiltro = categoria.toLowerCase();
         tarjetas.forEach(card => {
-            let cardCategoria = (card.getAttribute("data-categoria") || "").toLowerCase();
-            card.style.display = (categoriaFiltro === "" || cardCategoria === categoriaFiltro) ? "block" : "none";
+            let categorias = card.getAttribute("data-categorias")?.split(', ') || [];
+            let categoriasLower = categorias.map(cat => cat.toLowerCase());
+            card.style.display = (categoriaFiltro === "" || categoriasLower.includes(categoriaFiltro)) ? "block" : "none";
         });
 
         let searchInput = document.getElementById("searchInput");
@@ -186,9 +183,22 @@ document.addEventListener("DOMContentLoaded", function () {
         actualizarContadores(); // Actualizar contadores después de filtrar
     }
 
+    // Mostrar u ocultar el menú hamburguesa
+    function toggleMenu() {
+        let navMenu = document.getElementById("navMenu");
+        navMenu.classList.toggle("active");
+    }
+
+    // Volver al inicio
+    function volverInicio() {
+        filtrarPorCategoria('');
+        document.getElementById("searchInput").value = '';
+        actualizarContadores();
+    }
+
     let searchInput = document.getElementById("searchInput");
     if (searchInput) {
-        searchInput.addEventListener("input", filtrarContenido);
+        searchInput.addEventListener("input", buscarTarjetas);
     } else {
         console.error("Elemento searchInput no encontrado");
     }

@@ -14,7 +14,7 @@
             <button class="hamburger" onclick="toggleMenu()">☰</button>
             <h1 onclick="volverInicio()" style="cursor: pointer;">My Biblioteca</h1>
             <div class="header-buttons">
-                <input type="text" id="searchInput" placeholder="Buscar...">
+                <input type="text" id="searchInput" placeholder="Buscar..." onkeyup="buscarTarjetas()">
             </div>
             <nav class="nav-menu" id="navMenu">
                 <ul>
@@ -37,9 +37,7 @@
 
             
 
-
-
-            
+         
 <div class="card" onclick="guardarYRedirigir(this)" data-categorias="acción, aventura, ciencia ficción">
     <div class="card-image">
         <img src="https://image.tmdb.org/t/p/w300//gWE2GIrIqqf1OLV2Talxph11MC.jpg" alt="2012 - 2009">
@@ -55,7 +53,8 @@
     <div class="trailer" style="display: none;">https://youtu.be/sFXGrTng0gQ?si=hBbh-7K5_aIvtUbO</div>
     <div class="duracion" style="display: none;"></div>
 </div>
-            
+
+
 
          
 <div class="card" onclick="guardarYRedirigir(this)" data-categorias="aventura, ciencia ficción">
