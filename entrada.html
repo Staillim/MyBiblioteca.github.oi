@@ -53,7 +53,7 @@
                     <div class="server-buttons">
                         <button class="server-btn active" data-server="server1">Servidor 1</button>
                         <button class="server-btn" data-server="server2">Servidor 2</button>
-                        <button class="server-btn" data-server="terabox">Terabox</button>
+                        <button class="server-btn" data-server="terabox">Trailer</button>
                     </div>
                     <div class="reproductor">
                         <iframe id="reproductor-iframe" src="" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
@@ -124,7 +124,7 @@
                 const servidores = {
                     server1: server1,
                     server2: server2,
-                    terabox: link
+                    Trailer: link
                 };
 
                 const iframe = document.getElementById("reproductor-iframe");
@@ -173,7 +173,7 @@
             // Temporizador del anuncio
             const adOverlay = document.getElementById("adOverlay");
             const closeAdBtn = document.getElementById("closeAd");
-            let timeLeft = 5;
+            let timeLeft = 1;
 
             if (adOverlay && closeAdBtn) {
                 console.log("Iniciando temporizador del anuncio...");
