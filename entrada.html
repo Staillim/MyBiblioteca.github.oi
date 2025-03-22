@@ -6,8 +6,148 @@
     <title>Entrada a la Película</title>
     <link rel="stylesheet" href="styles2.css">
     <link rel="stylesheet" href="styles.css">
-
     <script type='text/javascript' src='//padsims.com/4a/bb/08/4abb0855e18ea3825a81653fe82593c0.js'></script>
+    <style>
+        /* Estilos embebidos para el reproductor y el layout */
+        .entrada-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .entrada-content {
+            flex: 1;
+            max-width: 800px;
+            text-align: center;
+        }
+        .side-ad {
+            width: 300px;
+            height: 250px;
+            background-color: #222;
+        }
+        .reproductor-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .server-buttons {
+            margin-bottom: 10px;
+        }
+        .server-btn {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .server-btn.active {
+            background-color: #007bff;
+        }
+        .server-btn:hover {
+            background-color: #666;
+        }
+        .reproductor-box {
+            background-color: #1a1a1a;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+        .reproductor-box iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 5px;
+        }
+        #terabox-link {
+            display: block;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        #server-message {
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+        }
+        .ad-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .ad-banner {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        #closeAd {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #closeAd:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .hamburger {
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .nav-menu {
+            display: none;
+        }
+        .nav-menu.active {
+            display: block;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background-color: #1a1a1a;
+            width: 200px;
+        }
+        .nav-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+        .nav-menu li {
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+        }
+        .nav-menu li:hover {
+            background-color: #333;
+        }
+    </style>
 </head>
 <body>
     <div>
@@ -39,8 +179,7 @@
                         'params': {}
                     };
                 </script>
-                                    <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
-
+                <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
             </div>
 
             <div class="entrada-content">
@@ -55,10 +194,10 @@
                         <button class="server-btn" data-server="server2">Servidor 2</button>
                         <button class="server-btn" data-server="terabox">Trailer</button>
                     </div>
-                    <div class="reproductor">
-                        <iframe id="reproductor-iframe" src="" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+                    <div class="reproductor-box">
+                        <iframe id="reproductor-iframe" src="" scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
                         <a id="terabox-link" href="#" target="_blank" style="display: none;">Ver en Terabox</a>
-                        <div id="server-message" style="display: none; color: white; text-align: center; padding: 20px; background-color: #333; border-radius: 5px;">No disponible</div>
+                        <div id="server-message" style="display: none;">No disponible</div>
                     </div>
                 </div>
                 <br>
@@ -74,8 +213,7 @@
                         'params': {}
                     };
                 </script>
-                   <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
-
+                <script type="text/javascript" src="//padsims.com/e96a39c04a66f1af8432a56ca9a7c1cf/invoke.js"></script>
             </div>
         </div>
 
@@ -124,7 +262,7 @@
                 const servidores = {
                     server1: server1,
                     server2: server2,
-                    Trailer: link
+                    terabox: link
                 };
 
                 const iframe = document.getElementById("reproductor-iframe");
@@ -173,7 +311,7 @@
             // Temporizador del anuncio
             const adOverlay = document.getElementById("adOverlay");
             const closeAdBtn = document.getElementById("closeAd");
-            let timeLeft = 5;
+            let timeLeft = 5; // Ajustado a 5 segundos como en el diseño original
 
             if (adOverlay && closeAdBtn) {
                 console.log("Iniciando temporizador del anuncio...");
